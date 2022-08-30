@@ -6,7 +6,7 @@
     <data>
         <variable
             name="movieDetailViewModel"
-            type="com.guilhermemarx14.mymovieapp.viewmodel.MovieViewModel" />
+            type="com.guilhermemarx14.mymovieapp.viewmodel.MovieDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@{movieDetailViewModel.loadMovieDetail().title}"
+            android:text="@{movieDetailViewModel.movieDetailsLiveData.title}"
             android:textColor="#B4000000"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -44,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="20dp"
-            android:text="@{movieDetailViewModel.loadMovieDetail().content}"
+            android:text="@{movieDetailViewModel.movieDetailsLiveData.content}"
             android:textColor="#B4000000"
             app:layout_constraintBottom_toTopOf="@+id/textView3"
             app:layout_constraintEnd_toEndOf="parent"

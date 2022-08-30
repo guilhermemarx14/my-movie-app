@@ -9,11 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.navGraphViewModels
 import com.guilhermemarx14.mymovieapp.R
 import com.guilhermemarx14.mymovieapp.databinding.FragmentMovieDetailsBinding
-import com.guilhermemarx14.mymovieapp.viewmodel.MovieViewModel
+import com.guilhermemarx14.mymovieapp.viewmodel.MovieDetailsViewModel
 
-class MovieDetailsFragment : Fragment() {
+class MovieDetailsFragment : Fragment(){
     private lateinit var binding: FragmentMovieDetailsBinding
-    private val viewModel by navGraphViewModels<MovieViewModel>(R.id.nav_graph){ defaultViewModelProviderFactory }
+    private val viewModel by navGraphViewModels<MovieDetailsViewModel>(R.id.nav_graph){ defaultViewModelProviderFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,4 +31,6 @@ class MovieDetailsFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.movieDetailViewModel = viewModel
     }
+
+
 }

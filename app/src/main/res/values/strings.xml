@@ -10,4 +10,6 @@
     <string name="rating_title">Rating: X</string>
     <string name="posters_title">Posters</string>
     <string name="search">Search</string>
+    <string name="search2">Search2</string>
+    <string name="list_title">Movies\' List</string>
 </resources>
