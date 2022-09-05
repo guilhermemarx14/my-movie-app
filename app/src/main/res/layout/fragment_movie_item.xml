@@ -4,26 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="movieItem"
-            type="com.guilhermemarx14.mymovieapp.view.fragment.placeholder.PlaceholderContent.PlaceholderItem" />
+            type="com.guilhermemarx14.mymovieapp.model.MovieItemList" />
     </data>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#A5A5A5"
-        android:backgroundTint="#A5A5A5"
-        android:orientation="horizontal">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:layout_margin="20dp">
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:minHeight="350dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/movieTitleListItem"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:layout_marginStart="16dp"
+                    android:text="@{movieItem.title}"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView"
+                    tools:text="TESTE" />
 
                 <TextView
                     android:id="@+id/content"
@@ -33,12 +42,12 @@
                     android:ellipsize="end"
                     android:maxEms="3"
                     android:maxLines="3"
-                    android:text="@{movieItem.content}"
+                    android:text="@{movieItem.overview}"
                     android:textAppearance="?attr/textAppearanceListItem"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imageView" />
+                    app:layout_constraintTop_toBottomOf="@+id/movieTitleListItem" />
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -49,8 +58,8 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/strange"
-                    tools:srcCompat="@drawable/strange" />
+                    app:srcUrl="@{movieItem.imagePath}"
+                    />
 
                 <TextView
                     android:id="@+id/shareButton"
@@ -62,7 +71,8 @@
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/detailButton"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/content" />
 
                 <TextView
                     android:id="@+id/detailButton"
@@ -85,5 +95,4 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
 </layout>

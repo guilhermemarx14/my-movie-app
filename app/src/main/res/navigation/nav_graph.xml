@@ -18,5 +18,9 @@
         android:id="@+id/movieDetailFragment"
         android:name="com.guilhermemarx14.mymovieapp.view.fragment.MovieDetailsFragment"
         android:label="fragment_movie_detail"
-        tools:layout="@layout/fragment_movie_details" />
+        tools:layout="@layout/fragment_movie_details" >
+        <action
+            android:id="@+id/action_movieDetailFragment_to_movieListFragment"
+            app:destination="@id/movieListFragment" />
+    </fragment>
 </navigation>

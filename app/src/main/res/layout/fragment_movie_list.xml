@@ -3,14 +3,57 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
-        android:name="com.guilhermemarx14.mymovieapp.view.fragment.MovieListFragment"
+    <data>
+
+        <import type="com.guilhermemarx14.mymovieapp.model.DataState" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.guilhermemarx14.mymovieapp.viewmodel.MovieDetailsViewModel" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        app:layoutManager="LinearLayoutManager"
-        tools:context=".view.fragment.MovieListFragment"
-        tools:listitem="@layout/fragment_movie_item" />
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:name="com.guilhermemarx14.mymovieapp.view.fragment.MovieListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:visibility="@{viewModel.appStateLiveData == DataState.SUCCESS ? View.VISIBLE : View.GONE}"
+            app:layoutManager="LinearLayoutManager"
+            tools:context=".view.fragment.MovieListFragment"
+            tools:listitem="@layout/fragment_movie_item" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="@{viewModel.appStateLiveData == DataState.ERROR ? View.VISIBLE : View.GONE}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/error_message" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="@{viewModel.appStateLiveData == DataState.LOADING ? View.VISIBLE : View.GONE}">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+
 </layout>

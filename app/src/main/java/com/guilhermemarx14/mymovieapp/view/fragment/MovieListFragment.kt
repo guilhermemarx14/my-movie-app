@@ -10,9 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
+import com.guilhermemarx14.mymovieapp.Util
 import com.guilhermemarx14.mymovieapp.R
 import com.guilhermemarx14.mymovieapp.databinding.FragmentMovieListBinding
 import com.guilhermemarx14.mymovieapp.interfaces.MovieSelectedListener
+import com.guilhermemarx14.mymovieapp.lifecycle_observers.FragmentObserver
+import com.guilhermemarx14.mymovieapp.view.adapter.MovieRecyclerViewAdapter
 import com.guilhermemarx14.mymovieapp.viewmodel.MovieDetailsViewModel
 
 class MovieListFragment : Fragment(), MovieSelectedListener {
@@ -30,13 +33,17 @@ class MovieListFragment : Fragment(), MovieSelectedListener {
     ): View {
         setupBinding(inflater)
         setupRecyclerView()
+        lifecycle.addObserver(FragmentObserver())
 
-        return recyclerView
+        return binding.root
     }
 
     private fun setupBinding(inflater: LayoutInflater){
         binding = FragmentMovieListBinding.inflate(inflater)
-        recyclerView = binding.root as RecyclerView
+        recyclerView = binding.list
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
     }
 
     private fun setupRecyclerView(){
@@ -48,17 +55,21 @@ class MovieListFragment : Fragment(), MovieSelectedListener {
 
     private fun setupObservers() {
         viewModel.movieListLiveData.observe(viewLifecycleOwner) {
-            Log.d("teste","updateValues")
-            adapter.updateValues(it)
+            it?.let { adapter.updateValues(it) }
         }
 
         viewModel.navigateToDetailsLiveData.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.movieDetailFragment)
+            Log.d("teste","navigateToDetailsLiveData")
+            if(Util.listScreen.compareAndSet(true,false))
+                findNavController().navigate(R.id.movieDetailFragment)
+            else Util.listScreen.compareAndSet(false, true)
         }
+
     }
 
     override fun onItemSelected(position: Int) {
-        viewModel.onMovieSelected(position)
+        //if(ApiHelper().isListScreen())
+            viewModel.onMovieSelected(position)
     }
 
 }

@@ -1,23 +1,23 @@
-package com.guilhermemarx14.mymovieapp.view.fragment
+package com.guilhermemarx14.mymovieapp.view.adapter
 
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.guilhermemarx14.mymovieapp.databinding.FragmentMovieItemBinding
 import com.guilhermemarx14.mymovieapp.interfaces.MovieSelectedListener
-
-import com.guilhermemarx14.mymovieapp.view.fragment.placeholder.PlaceholderContent.PlaceholderItem
+import com.guilhermemarx14.mymovieapp.model.MovieItemList
 
 class MovieRecyclerViewAdapter(
 
     private val listener: MovieSelectedListener
 ) : RecyclerView.Adapter<MovieRecyclerViewAdapter.ViewHolder>() {
 
-    private val values: MutableList<PlaceholderItem> = ArrayList()
+    private var values: List<MovieItemList> = ArrayList()
 
-    fun updateValues(movieList: List<PlaceholderItem>){
-        values.clear()
-        values.addAll(movieList)
+    fun updateValues(hqList: List<MovieItemList>){
+        Log.d("teste","updateValues")
+        values = hqList
         notifyDataSetChanged()
     }
 
@@ -37,8 +37,9 @@ class MovieRecyclerViewAdapter(
 
     inner class ViewHolder(private val binding: FragmentMovieItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         val viewRoot = binding.root
-        fun bindItem(item: PlaceholderItem) {
+        fun bindItem(item: MovieItemList) {
             binding.movieItem = item
             binding.executePendingBindings()
         }

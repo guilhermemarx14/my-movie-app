@@ -11,14 +11,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.*
 import com.google.android.material.navigation.NavigationView
 import com.guilhermemarx14.mymovieapp.databinding.ActivityMainBinding
+import com.guilhermemarx14.mymovieapp.lifecycle_observers.ActivityObserver
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
     private lateinit var navHost: NavHostFragment
@@ -33,7 +31,7 @@ class MainActivity : AppCompatActivity(){
         setupBinding()
         setupToolbar()
         setupNavigationComponents()
-
+        lifecycle.addObserver(ActivityObserver())
     }
 
     private fun setupToolbar() {
@@ -48,7 +46,8 @@ class MainActivity : AppCompatActivity(){
         navController = navHost.navController
         appBarConfiguration = AppBarConfiguration(navController.graph, drawer)
 
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
+        //setupActionBarWithNavController(navController, appBarConfiguration)
         navDrawer.setupWithNavController(navController)
         navDrawer.setNavigationItemSelectedListener {
             when(it.itemId){
@@ -72,7 +71,9 @@ class MainActivity : AppCompatActivity(){
         navDrawer = binding.navigationView
         toolbar = binding.appBar
         titleTextView = binding.myToolbarTitle
+
     }
+
 
     override fun onSupportNavigateUp(): Boolean {
         Log.d("teste","onSupportNavigateUp")
@@ -93,4 +94,5 @@ class MainActivity : AppCompatActivity(){
             else ->  super.onOptionsItemSelected(item)
         }
     }
+
 }
