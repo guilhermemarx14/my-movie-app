@@ -7,6 +7,6 @@ import androidx.lifecycle.LifecycleOwner
 
 class FragmentObserver: LifecycleEventObserver {
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-        Log.d("teste", "Fragment: ${source.javaClass.name} - Event: $event")
+        Log.d("movieApp", "Fragment: ${source.javaClass.name} - Event: $event")
     }
 }

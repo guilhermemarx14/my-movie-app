@@ -8,7 +8,7 @@
     <string name="movie_title">Title (year)</string>
     <string name="tagline_title">Tagline</string>
     <string name="rating_title">Rating: X</string>
-    <string name="posters_title">Posters</string>
+    <string name="posters_title">Posters and Backdrops</string>
     <string name="search">Search</string>
     <string name="search2">Search2</string>
     <string name="error_message">Ops, error</string>

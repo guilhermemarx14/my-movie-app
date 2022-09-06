@@ -38,6 +38,11 @@ class MovieListFragment : Fragment(), MovieSelectedListener {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getMovieList()
+    }
+
     private fun setupBinding(inflater: LayoutInflater){
         binding = FragmentMovieListBinding.inflate(inflater)
         recyclerView = binding.list
@@ -55,11 +60,12 @@ class MovieListFragment : Fragment(), MovieSelectedListener {
 
     private fun setupObservers() {
         viewModel.movieListLiveData.observe(viewLifecycleOwner) {
+            Log.d("movieApp","movieListLiveData.observe")
             it?.let { adapter.updateValues(it) }
         }
 
         viewModel.navigateToDetailsLiveData.observe(viewLifecycleOwner) {
-            Log.d("teste","navigateToDetailsLiveData")
+            Log.d("movieApp","navigateToDetailsLiveData")
             if(Util.listScreen.compareAndSet(true,false))
                 findNavController().navigate(R.id.movieDetailFragment)
             else Util.listScreen.compareAndSet(false, true)
@@ -68,7 +74,6 @@ class MovieListFragment : Fragment(), MovieSelectedListener {
     }
 
     override fun onItemSelected(position: Int) {
-        //if(ApiHelper().isListScreen())
             viewModel.onMovieSelected(position)
     }
 

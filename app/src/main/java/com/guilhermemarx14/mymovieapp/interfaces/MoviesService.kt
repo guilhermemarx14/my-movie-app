@@ -1,5 +1,6 @@
 package com.guilhermemarx14.mymovieapp.interfaces
 
+import com.guilhermemarx14.mymovieapp.model.ImagesResponse
 import com.guilhermemarx14.mymovieapp.model.MovieDetails
 import com.guilhermemarx14.mymovieapp.model.MovieListResponse
 import retrofit2.http.GET
@@ -18,4 +19,10 @@ interface MoviesService {
         @Path("movie_id") id: Int,
         @Query("api_key") key: String
     ) : Call<MovieDetails>
+
+    @GET("/3/movie/{movie_id}/images")
+    fun getMovieImages(
+        @Path("movie_id") id: Int,
+        @Query("api_key") key: String
+    ) : Call<ImagesResponse>
 }

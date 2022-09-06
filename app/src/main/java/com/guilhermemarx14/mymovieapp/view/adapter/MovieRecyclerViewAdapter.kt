@@ -16,7 +16,7 @@ class MovieRecyclerViewAdapter(
     private var values: List<MovieItemList> = ArrayList()
 
     fun updateValues(hqList: List<MovieItemList>){
-        Log.d("teste","updateValues")
+        Log.d("movieApp","updateValues")
         values = hqList
         notifyDataSetChanged()
     }
