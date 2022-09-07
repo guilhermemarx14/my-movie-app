@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="movieDetailViewModel"
             type="com.guilhermemarx14.mymovieapp.viewmodel.MovieDetailsViewModel" />
@@ -59,7 +60,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:imageList="@{movieDetailViewModel.carouselImagesLiveData.carouselItems}"
+            android:visibility="@{movieDetailViewModel.carouselImagesLiveData.carouselItems.empty ? View.GONE : View.VISIBLE}"/>
 
         <TextView
             android:id="@+id/taglineTextView"
@@ -67,7 +70,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@{movieDetailViewModel.movieDetailsLiveData.tagline}"
+            android:visibility="@{movieDetailViewModel.movieDetailsLiveData.tagline==null ? View.GONE : View.VISIBLE}"
             android:textColor="#B4000000"
+            android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -79,8 +84,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
-            android:text="@string/rating_title"
-            android:textColor="#B4000000"
+            android:text="@{movieDetailViewModel.movieDetailsLiveData.ratings}"
+            android:visibility="@{movieDetailViewModel.movieDetailsLiveData.ratings==null ? View.GONE : View.VISIBLE}"
+        android:textColor="#B4000000"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/taglineTextView" />
 
@@ -94,7 +100,8 @@
             android:textColor="#B4000000"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/carousel"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="@{movieDetailViewModel.carouselImagesLiveData.carouselItems.empty ? View.GONE : View.VISIBLE}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

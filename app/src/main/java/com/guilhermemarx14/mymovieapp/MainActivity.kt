@@ -2,19 +2,19 @@ package com.guilhermemarx14.mymovieapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
 import com.google.android.material.navigation.NavigationView
 import com.guilhermemarx14.mymovieapp.databinding.ActivityMainBinding
-import com.guilhermemarx14.mymovieapp.lifecycle_observers.ActivityObserver
+import com.guilhermemarx14.mymovieapp.viewmodel.MovieDetailsViewModel
 
 class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
@@ -25,13 +25,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawer: DrawerLayout
     private lateinit var navDrawer: NavigationView
     private lateinit var titleTextView: TextView
+    private lateinit var viewModel : MovieDetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupBinding()
         setupToolbar()
         setupNavigationComponents()
-        lifecycle.addObserver(ActivityObserver())
+        viewModel = ViewModelProvider(this)[MovieDetailsViewModel::class.java]
+        lifecycle.addObserver(viewModel)
     }
 
     private fun setupToolbar() {
@@ -47,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph, drawer)
 
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
-        //setupActionBarWithNavController(navController, appBarConfiguration)
         navDrawer.setupWithNavController(navController)
         navDrawer.setNavigationItemSelectedListener {
             when(it.itemId){
@@ -76,7 +77,6 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onSupportNavigateUp(): Boolean {
-        Log.d("teste","onSupportNavigateUp")
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 

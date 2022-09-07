@@ -7,7 +7,7 @@
 
         <variable
             name="movieItem"
-            type="com.guilhermemarx14.mymovieapp.model.MovieItemList" />
+            type="com.guilhermemarx14.mymovieapp.model.MovieListItem" />
     </data>
 
 

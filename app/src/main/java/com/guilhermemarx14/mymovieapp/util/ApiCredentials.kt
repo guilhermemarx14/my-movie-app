@@ -1,4 +1,4 @@
-package com.guilhermemarx14.mymovieapp
+package com.guilhermemarx14.mymovieapp.util
 
 class ApiCredentials {
 

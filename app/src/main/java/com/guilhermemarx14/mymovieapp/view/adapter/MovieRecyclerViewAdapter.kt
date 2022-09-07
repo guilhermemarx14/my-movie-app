@@ -6,16 +6,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.guilhermemarx14.mymovieapp.databinding.FragmentMovieItemBinding
 import com.guilhermemarx14.mymovieapp.interfaces.MovieSelectedListener
-import com.guilhermemarx14.mymovieapp.model.MovieItemList
+import com.guilhermemarx14.mymovieapp.model.MovieListItem
 
 class MovieRecyclerViewAdapter(
 
     private val listener: MovieSelectedListener
 ) : RecyclerView.Adapter<MovieRecyclerViewAdapter.ViewHolder>() {
 
-    private var values: List<MovieItemList> = ArrayList()
+    private var values: List<MovieListItem> = ArrayList()
 
-    fun updateValues(hqList: List<MovieItemList>){
+    fun updateValues(hqList: List<MovieListItem>){
         Log.d("movieApp","updateValues")
         values = hqList
         notifyDataSetChanged()
@@ -39,7 +39,7 @@ class MovieRecyclerViewAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         val viewRoot = binding.root
-        fun bindItem(item: MovieItemList) {
+        fun bindItem(item: MovieListItem) {
             binding.movieItem = item
             binding.executePendingBindings()
         }

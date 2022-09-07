@@ -10,11 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
-import com.guilhermemarx14.mymovieapp.Util
 import com.guilhermemarx14.mymovieapp.R
 import com.guilhermemarx14.mymovieapp.databinding.FragmentMovieListBinding
 import com.guilhermemarx14.mymovieapp.interfaces.MovieSelectedListener
-import com.guilhermemarx14.mymovieapp.lifecycle_observers.FragmentObserver
 import com.guilhermemarx14.mymovieapp.view.adapter.MovieRecyclerViewAdapter
 import com.guilhermemarx14.mymovieapp.viewmodel.MovieDetailsViewModel
 
@@ -33,7 +31,7 @@ class MovieListFragment : Fragment(), MovieSelectedListener {
     ): View {
         setupBinding(inflater)
         setupRecyclerView()
-        lifecycle.addObserver(FragmentObserver())
+        lifecycle.addObserver(viewModel)
 
         return binding.root
     }
@@ -60,15 +58,14 @@ class MovieListFragment : Fragment(), MovieSelectedListener {
 
     private fun setupObservers() {
         viewModel.movieListLiveData.observe(viewLifecycleOwner) {
-            Log.d("movieApp","movieListLiveData.observe")
             it?.let { adapter.updateValues(it) }
         }
 
         viewModel.navigateToDetailsLiveData.observe(viewLifecycleOwner) {
-            Log.d("movieApp","navigateToDetailsLiveData")
-            if(Util.listScreen.compareAndSet(true,false))
-                findNavController().navigate(R.id.movieDetailFragment)
-            else Util.listScreen.compareAndSet(false, true)
+            it.getContentIfNotHandled()?.let {
+                val action = MovieListFragmentDirections.actionMovieListFragmentToMovieDetailFragment()
+                findNavController().navigate(action)
+            }
         }
 
     }
