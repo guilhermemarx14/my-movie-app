@@ -5,7 +5,6 @@ import androidx.lifecycle.*
 import com.guilhermemarx14.mymovieapp.util.ApiCredentials
 import com.guilhermemarx14.mymovieapp.service.MoviesService
 import com.guilhermemarx14.mymovieapp.model.*
-import com.guilhermemarx14.mymovieapp.lifecycle.Event
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -25,9 +24,13 @@ class MovieDetailsViewModel : ViewModel(), LifecycleEventObserver {
         get() = _navigateToDetailsLiveData
     private val _navigateToDetailsLiveData = MutableLiveData<Event<Unit>>()
 
-    val appStateLiveData: LiveData<DataState>
-        get() = _appStateLiveData
-    private val _appStateLiveData = MutableLiveData<DataState>()
+    val listStateLiveData: LiveData<DataState>
+        get() = _listStateLiveData
+    private val _listStateLiveData = MutableLiveData<DataState>()
+
+    val detailsStateLiveData: LiveData<DataState>
+        get() = _detailsStateLiveData
+    private val _detailsStateLiveData = MutableLiveData<DataState>()
 
     val carouselImagesLiveData: LiveData<ImagesResponse?>
         get() = _carouselImagesLiveData
@@ -41,11 +44,13 @@ class MovieDetailsViewModel : ViewModel(), LifecycleEventObserver {
     private val movieService = retrofit.create(MoviesService::class.java)
 
     init {
-        _appStateLiveData.postValue(DataState.LOADING)
+        _listStateLiveData.postValue(DataState.LOADING)
     }
 
     fun onMovieSelected(position: Int) {
         Log.d("movieApp", "onMovieSelected")
+
+        _detailsStateLiveData.postValue(DataState.LOADING)
         movieListLiveData.value?.get(position)?.id?.let {id ->
 
             viewModelScope.launch {
@@ -54,10 +59,12 @@ class MovieDetailsViewModel : ViewModel(), LifecycleEventObserver {
 
                 if(response.isSuccessful){
                     Log.d("movieApp", "getMovieDetails - Success")
+                    _detailsStateLiveData.postValue(DataState.SUCCESS)
                     _movieDetailsLiveData.postValue(response.body())
                 }else{
                     Log.e("movieApp", "${response.errorBody()}")
-                    _appStateLiveData.postValue(DataState.ERROR)
+                    _detailsStateLiveData.postValue(DataState.ERROR)
+                    //_appStateLiveData.postValue(DataState.ERROR)
                 }
             }
 
@@ -70,7 +77,7 @@ class MovieDetailsViewModel : ViewModel(), LifecycleEventObserver {
                     _carouselImagesLiveData.postValue(response.body())
                 }else{
                     Log.e("movieApp", "${response.errorBody()}")
-                    _appStateLiveData.postValue(DataState.ERROR)
+                    //_appStateLiveData.postValue(DataState.ERROR)
                 }
             }
         }
@@ -85,11 +92,11 @@ class MovieDetailsViewModel : ViewModel(), LifecycleEventObserver {
 
             if(response.isSuccessful){
                 Log.d("movieApp", "getPopularList - Success")
-                _appStateLiveData.postValue(DataState.SUCCESS)
+                _listStateLiveData.postValue(DataState.SUCCESS)
                 _movieListLiveData.postValue(response.body()?.results)
             }else{
                 Log.e("movieApp", "${response.errorBody()}")
-                _appStateLiveData.postValue(DataState.ERROR)
+                _listStateLiveData.postValue(DataState.ERROR)
             }
         }
     }
