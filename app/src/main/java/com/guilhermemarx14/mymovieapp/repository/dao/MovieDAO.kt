@@ -1,16 +1,16 @@
-package com.guilhermemarx14.mymovieapp.dao
+package com.guilhermemarx14.mymovieapp.repository.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
-import com.guilhermemarx14.mymovieapp.database.MyMovieAppDatabase
+import com.guilhermemarx14.mymovieapp.repository.database.MyMovieAppDatabase
 import com.guilhermemarx14.mymovieapp.model.Movie
 import com.guilhermemarx14.mymovieapp.model.relation.MovieGenreRelation
 
 @Dao
 abstract class MovieDAO(
     myMovieAppDatabase: MyMovieAppDatabase
-): BaseDAO<Movie>{
+): BaseDAO<Movie> {
     private val genreDAO = myMovieAppDatabase.genreDao()
 
     @Transaction

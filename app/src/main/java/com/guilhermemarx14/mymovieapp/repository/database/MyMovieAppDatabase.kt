@@ -1,12 +1,12 @@
-package com.guilhermemarx14.mymovieapp.database
+package com.guilhermemarx14.mymovieapp.repository.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.guilhermemarx14.mymovieapp.dao.GenreDAO
-import com.guilhermemarx14.mymovieapp.dao.MovieDAO
-import com.guilhermemarx14.mymovieapp.dao.MovieListItemDAO
+import com.guilhermemarx14.mymovieapp.repository.dao.GenreDAO
+import com.guilhermemarx14.mymovieapp.repository.dao.MovieDAO
+import com.guilhermemarx14.mymovieapp.repository.dao.MovieListItemDAO
 import com.guilhermemarx14.mymovieapp.model.Genre
 import com.guilhermemarx14.mymovieapp.model.Movie
 import com.guilhermemarx14.mymovieapp.model.MovieListItem
@@ -25,7 +25,7 @@ abstract class MyMovieAppDatabase: RoomDatabase() {
         @Volatile
         private var instance: MyMovieAppDatabase? = null
 
-        fun getDatabase(context: Context): MyMovieAppDatabase{
+        fun getDatabase(context: Context): MyMovieAppDatabase {
             return instance ?: synchronized(this){
                 val database = Room.databaseBuilder(
                     context.applicationContext,

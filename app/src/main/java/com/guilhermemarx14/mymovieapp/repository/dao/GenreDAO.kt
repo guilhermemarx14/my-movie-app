@@ -1,4 +1,4 @@
-package com.guilhermemarx14.mymovieapp.dao
+package com.guilhermemarx14.mymovieapp.repository.dao
 
 import androidx.room.Dao
 import androidx.room.Query

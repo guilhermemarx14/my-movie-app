@@ -3,23 +3,15 @@ package com.guilhermemarx14.mymovieapp.viewmodel
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import com.guilhermemarx14.mymovieapp.database.MyMovieAppDatabase
 import com.guilhermemarx14.mymovieapp.model.DataState
 import com.guilhermemarx14.mymovieapp.model.ImagesResponse
 import com.guilhermemarx14.mymovieapp.model.Movie
 import com.guilhermemarx14.mymovieapp.model.MovieListItem
-import com.guilhermemarx14.mymovieapp.model.relation.MovieGenreRelation
-import com.guilhermemarx14.mymovieapp.service.MoviesService
-import com.guilhermemarx14.mymovieapp.util.ApiCredentials
+import com.guilhermemarx14.mymovieapp.repository.MovieRepository
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 
 class MovieDetailsViewModel(application: Application) : AndroidViewModel(application),
     LifecycleEventObserver {
-    private val myMovieAppDatabase = MyMovieAppDatabase.getDatabase(application)
-    private val movieListItemDAO = myMovieAppDatabase.movieListItemDAO()
-    private val movieDAO = myMovieAppDatabase.movieDetailsDAO(myMovieAppDatabase)
 
     val movieDetailsLiveData: LiveData<Movie>
         get() = _movieDetailsLiveData
@@ -46,107 +38,31 @@ class MovieDetailsViewModel(application: Application) : AndroidViewModel(applica
         get() = _carouselImagesLiveData
     private val _carouselImagesLiveData = MutableLiveData<ImagesResponse?>()
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(ApiCredentials.baseUrl)
-        .addConverterFactory(MoshiConverterFactory.create())
-        .build()
+    private val repository = MovieRepository(application)
 
-    private val movieService = retrofit.create(MoviesService::class.java)
+    fun onMovieSelected(position: Int){
+        Log.d("movieApp", "Movie Selection not implemented")
+    }
 
-    init {
+    fun getMovieList(){
         _listStateLiveData.postValue(DataState.LOADING)
-    }
-
-    fun onMovieSelected(position: Int) {
-        Log.d("movieApp", "onMovieSelected")
-
-        _detailsStateLiveData.postValue(DataState.LOADING)
-        movieListLiveData.value?.get(position)?.id?.let { id ->
-
-            viewModelScope.launch {
-                Log.d("movieApp", "getMovieDetails")
-                val response = movieService.getMovieDetails(id, ApiCredentials.key)
-
-                if (response.isSuccessful) {
-                    Log.d("movieApp", "getMovieDetails - Success")
-                    _detailsStateLiveData.postValue(DataState.SUCCESS)
-                    _movieDetailsLiveData.postValue(response.body())
-                } else {
-                    Log.e("movieApp", "${response.errorBody()}")
-                    _detailsStateLiveData.postValue(DataState.ERROR)
-                    //_appStateLiveData.postValue(DataState.ERROR)
-                }
-            }
-
-            viewModelScope.launch {
-                Log.d("movieApp", "getMovieImages")
-                val response = movieService.getMovieImages(id, ApiCredentials.key)
-
-                if (response.isSuccessful) {
-                    Log.d("movieApp", "getMovieImages - Success")
-                    _carouselImagesLiveData.postValue(response.body())
-                } else {
-                    Log.e("movieApp", "${response.errorBody()}")
-                    //_appStateLiveData.postValue(DataState.ERROR)
-                }
-            }
-        }
-
-        _navigateToDetailsLiveData.postValue(Event(Unit))
-    }
-
-    fun getMovieList() {
         viewModelScope.launch {
-            Log.d("movieApp", "getPopularList")
-            try {
-                val response = movieService.getPopularList(ApiCredentials.key)
+            val movieListResult = repository.getMovieListData()
 
-                if (response.isSuccessful) {
-                    Log.d("movieApp", "getPopularList - Success")
-                    val movies = response.body()?.results
-                    movies?.let { persistMovieListData(it) }
+            movieListResult.fold(
+                onSuccess = {
+                    _movieListLiveData.postValue(it)
                     _listStateLiveData.postValue(DataState.SUCCESS)
-                    _movieListLiveData.postValue(movies)
-                } else {
-                    Log.d("movieApp", "Handling error on getPopularList: ${response.errorBody()}")
-                    errorHandling()
+                },
+                onFailure = {
                     _listStateLiveData.postValue(DataState.ERROR)
                 }
-            } catch (e: Exception){
-                Log.d("movieApp", "Handling error on getPopularList: $e")
-                errorHandling()
-            }
+            )
+
         }
     }
 
-    private suspend fun errorHandling(){
-        val movieList = loadMovieListData()
-        if(movieList.isNullOrEmpty()){
-            Log.e("movieApp", "Handling error failed. MovieList on database is null or empty.")
-            _listStateLiveData.postValue(DataState.ERROR)
-        } else {
-            Log.d("movieApp", "Error Handled. MovieList loaded from database.")
-            _movieListLiveData.postValue(movieList)
-            _listStateLiveData.postValue(DataState.SUCCESS)
-        }
 
-    }
-
-    private suspend fun persistMovieListData(movies: List<MovieListItem>) {
-        movieListItemDAO.clearMovieListItemData()
-        movieListItemDAO.insertList(movies)
-    }
-
-    private suspend fun loadMovieListData() = movieListItemDAO.getAllMovieListItems()
-
-    private suspend fun loadMovieDetailsData() = movieDAO.getAllMovieDetails()?.map {
-        mapMovieGenreRelationToMovie(it)
-    }
-
-    private fun mapMovieGenreRelationToMovie(movieGenreRelation: MovieGenreRelation): Movie {
-        movieGenreRelation.movie.genres = movieGenreRelation.genres
-        return movieGenreRelation.movie
-    }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         val ownerName = source.javaClass.name.split('.').last()

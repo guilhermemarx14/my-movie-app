@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.guilhermemarx14.mymovieapp.R
 import com.guilhermemarx14.mymovieapp.databinding.FragmentMovieListBinding
-import com.guilhermemarx14.mymovieapp.interfaces.MovieSelectedListener
+import com.guilhermemarx14.mymovieapp.view.adapter.MovieSelectedListener
 import com.guilhermemarx14.mymovieapp.view.adapter.MovieRecyclerViewAdapter
 import com.guilhermemarx14.mymovieapp.viewmodel.MovieDetailsViewModel
 

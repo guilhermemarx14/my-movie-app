@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.guilhermemarx14.mymovieapp.databinding.FragmentMovieItemBinding
-import com.guilhermemarx14.mymovieapp.interfaces.MovieSelectedListener
 import com.guilhermemarx14.mymovieapp.model.MovieListItem
 
 class MovieRecyclerViewAdapter(
