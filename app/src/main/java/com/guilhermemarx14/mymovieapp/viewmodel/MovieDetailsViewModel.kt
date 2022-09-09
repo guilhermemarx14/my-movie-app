@@ -1,19 +1,29 @@
 package com.guilhermemarx14.mymovieapp.viewmodel
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import com.guilhermemarx14.mymovieapp.util.ApiCredentials
+import com.guilhermemarx14.mymovieapp.database.MyMovieAppDatabase
+import com.guilhermemarx14.mymovieapp.model.DataState
+import com.guilhermemarx14.mymovieapp.model.ImagesResponse
+import com.guilhermemarx14.mymovieapp.model.Movie
+import com.guilhermemarx14.mymovieapp.model.MovieListItem
+import com.guilhermemarx14.mymovieapp.model.relation.MovieGenreRelation
 import com.guilhermemarx14.mymovieapp.service.MoviesService
-import com.guilhermemarx14.mymovieapp.model.*
+import com.guilhermemarx14.mymovieapp.util.ApiCredentials
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class MovieDetailsViewModel : ViewModel(), LifecycleEventObserver {
+class MovieDetailsViewModel(application: Application) : AndroidViewModel(application),
+    LifecycleEventObserver {
+    private val myMovieAppDatabase = MyMovieAppDatabase.getDatabase(application)
+    private val movieListItemDAO = myMovieAppDatabase.movieListItemDAO()
+    private val movieDAO = myMovieAppDatabase.movieDetailsDAO(myMovieAppDatabase)
 
-    val movieDetailsLiveData: LiveData<MovieDetails>
+    val movieDetailsLiveData: LiveData<Movie>
         get() = _movieDetailsLiveData
-    private val _movieDetailsLiveData = MutableLiveData<MovieDetails>()
+    private val _movieDetailsLiveData = MutableLiveData<Movie>()
 
     val movieListLiveData: LiveData<List<MovieListItem>?>
         get() = _movieListLiveData
@@ -51,17 +61,17 @@ class MovieDetailsViewModel : ViewModel(), LifecycleEventObserver {
         Log.d("movieApp", "onMovieSelected")
 
         _detailsStateLiveData.postValue(DataState.LOADING)
-        movieListLiveData.value?.get(position)?.id?.let {id ->
+        movieListLiveData.value?.get(position)?.id?.let { id ->
 
             viewModelScope.launch {
                 Log.d("movieApp", "getMovieDetails")
                 val response = movieService.getMovieDetails(id, ApiCredentials.key)
 
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     Log.d("movieApp", "getMovieDetails - Success")
                     _detailsStateLiveData.postValue(DataState.SUCCESS)
                     _movieDetailsLiveData.postValue(response.body())
-                }else{
+                } else {
                     Log.e("movieApp", "${response.errorBody()}")
                     _detailsStateLiveData.postValue(DataState.ERROR)
                     //_appStateLiveData.postValue(DataState.ERROR)
@@ -72,10 +82,10 @@ class MovieDetailsViewModel : ViewModel(), LifecycleEventObserver {
                 Log.d("movieApp", "getMovieImages")
                 val response = movieService.getMovieImages(id, ApiCredentials.key)
 
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     Log.d("movieApp", "getMovieImages - Success")
                     _carouselImagesLiveData.postValue(response.body())
-                }else{
+                } else {
                     Log.e("movieApp", "${response.errorBody()}")
                     //_appStateLiveData.postValue(DataState.ERROR)
                 }
@@ -85,25 +95,65 @@ class MovieDetailsViewModel : ViewModel(), LifecycleEventObserver {
         _navigateToDetailsLiveData.postValue(Event(Unit))
     }
 
-    fun getMovieList(){
+    fun getMovieList() {
         viewModelScope.launch {
             Log.d("movieApp", "getPopularList")
-            val response = movieService.getPopularList(ApiCredentials.key)
+            try {
+                val response = movieService.getPopularList(ApiCredentials.key)
 
-            if(response.isSuccessful){
-                Log.d("movieApp", "getPopularList - Success")
-                _listStateLiveData.postValue(DataState.SUCCESS)
-                _movieListLiveData.postValue(response.body()?.results)
-            }else{
-                Log.e("movieApp", "${response.errorBody()}")
-                _listStateLiveData.postValue(DataState.ERROR)
+                if (response.isSuccessful) {
+                    Log.d("movieApp", "getPopularList - Success")
+                    val movies = response.body()?.results
+                    movies?.let { persistMovieListData(it) }
+                    _listStateLiveData.postValue(DataState.SUCCESS)
+                    _movieListLiveData.postValue(movies)
+                } else {
+                    Log.d("movieApp", "Handling error on getPopularList: ${response.errorBody()}")
+                    errorHandling()
+                    _listStateLiveData.postValue(DataState.ERROR)
+                }
+            } catch (e: Exception){
+                Log.d("movieApp", "Handling error on getPopularList: $e")
+                errorHandling()
             }
         }
+    }
+
+    private suspend fun errorHandling(){
+        val movieList = loadMovieListData()
+        if(movieList.isNullOrEmpty()){
+            Log.e("movieApp", "Handling error failed. MovieList on database is null or empty.")
+            _listStateLiveData.postValue(DataState.ERROR)
+        } else {
+            Log.d("movieApp", "Error Handled. MovieList loaded from database.")
+            _movieListLiveData.postValue(movieList)
+            _listStateLiveData.postValue(DataState.SUCCESS)
+        }
+
+    }
+
+    private suspend fun persistMovieListData(movies: List<MovieListItem>) {
+        movieListItemDAO.clearMovieListItemData()
+        movieListItemDAO.insertList(movies)
+    }
+
+    private suspend fun loadMovieListData() = movieListItemDAO.getAllMovieListItems()
+
+    private suspend fun loadMovieDetailsData() = movieDAO.getAllMovieDetails()?.map {
+        mapMovieGenreRelationToMovie(it)
+    }
+
+    private fun mapMovieGenreRelationToMovie(movieGenreRelation: MovieGenreRelation): Movie {
+        movieGenreRelation.movie.genres = movieGenreRelation.genres
+        return movieGenreRelation.movie
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         val ownerName = source.javaClass.name.split('.').last()
 
-        Log.d("movieApp", String.format("LifeCycle Event - Owner: %-20s - Event: %s", ownerName, event))
+        Log.d(
+            "movieApp",
+            String.format("LifeCycle Event - Owner: %-20s - Event: %s", ownerName, event)
+        )
     }
 }
