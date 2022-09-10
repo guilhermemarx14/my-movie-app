@@ -1,34 +1,43 @@
 package com.guilhermemarx14.mymovieapp.repository
 
 
-import android.content.Context
+import com.guilhermemarx14.mymovieapp.model.ImagesResponse
+import com.guilhermemarx14.mymovieapp.model.Movie
 import com.guilhermemarx14.mymovieapp.model.MovieListItem
 import com.guilhermemarx14.mymovieapp.repository.datasource.LocalDatabaseDataSource
 import com.guilhermemarx14.mymovieapp.repository.datasource.TmdbDataSource
+import javax.inject.Inject
 
-class MovieRepository(context: Context) {
-    private val tmdbDataSource = TmdbDataSource()
-    private val localDatabaseDataSource = LocalDatabaseDataSource(context)
-
+class MovieRepository @Inject constructor(
+    var tmdbDataSource: TmdbDataSource,
+    var localDatabaseDataSource: LocalDatabaseDataSource
+) {
     suspend fun getMovieListData(): Result<List<MovieListItem>?> {
         return try {
             val tmdbList = tmdbDataSource.getMovieListData()
 
-            if (tmdbList.isSuccess){
+            if (tmdbList.isSuccess) {
                 persistData(tmdbList.getOrNull())
                 tmdbList
             } else localDatabaseDataSource.getMovieListData()
-        }catch (e: Exception){
+        } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    private suspend fun persistData(movieList: List<MovieListItem>?){
+    private suspend fun persistData(movieList: List<MovieListItem>?) {
         movieList?.let {
             localDatabaseDataSource.clearData()
             localDatabaseDataSource.saveMovieListData(it)
         }
     }
+
+    suspend fun getMovieDetails(id: Int): Result<Movie?> =
+        tmdbDataSource.getMovieDetails(id)
+
+    suspend fun getMovieImages(id: Int): Result<ImagesResponse?> =
+        tmdbDataSource.getMovieImages(id)
+
 }
 
 

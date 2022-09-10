@@ -1,20 +1,23 @@
 package com.guilhermemarx14.mymovieapp.repository.datasource
 
-import android.content.Context
+import android.util.Log
+import com.guilhermemarx14.mymovieapp.model.ImagesResponse
 import com.guilhermemarx14.mymovieapp.model.Movie
 import com.guilhermemarx14.mymovieapp.model.MovieListItem
 import com.guilhermemarx14.mymovieapp.model.relation.MovieGenreRelation
-import com.guilhermemarx14.mymovieapp.repository.database.MyMovieAppDatabase
+import com.guilhermemarx14.mymovieapp.repository.dao.MovieDAO
+import com.guilhermemarx14.mymovieapp.repository.dao.MovieListItemDAO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class LocalDatabaseDataSource(
-    context: Context
-) : MovieDataSource {
+class LocalDatabaseDataSource @Inject constructor() : MovieDataSource {
 
-    private val myMovieAppDatabase = MyMovieAppDatabase.getDatabase(context)
-    private val movieListItemDAO = myMovieAppDatabase.movieListItemDAO()
-    private val movieDAO = myMovieAppDatabase.movieDetailsDAO(myMovieAppDatabase)
+    @Inject
+    lateinit var movieListItemDAO: MovieListItemDAO
+
+    @Inject
+    lateinit var movieDAO: MovieDAO
 
     override suspend fun getMovieListData(): Result<List<MovieListItem>?> =
         withContext(Dispatchers.IO) {
@@ -27,6 +30,16 @@ class LocalDatabaseDataSource(
 
     override suspend fun clearData() {
         movieListItemDAO.clearMovieListItemData()
+    }
+
+    override suspend fun getMovieDetails(id: Int): Result<Movie?> {
+        Log.d("movieApp", "Not implemented")
+        return Result.success(null)
+    }
+
+    override suspend fun getMovieImages(id: Int): Result<ImagesResponse?> {
+        Log.d("movieApp", "Not implemented")
+        return Result.success(null)
     }
 
     private suspend fun loadMovieListData() = movieListItemDAO.getAllMovieListItems()

@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.guilhermemarx14.mymovieapp.R
 import com.guilhermemarx14.mymovieapp.databinding.FragmentMovieListBinding
-import com.guilhermemarx14.mymovieapp.view.adapter.MovieSelectedListener
 import com.guilhermemarx14.mymovieapp.view.adapter.MovieRecyclerViewAdapter
+import com.guilhermemarx14.mymovieapp.view.adapter.MovieSelectedListener
 import com.guilhermemarx14.mymovieapp.viewmodel.MovieDetailsViewModel
 
 class MovieListFragment : Fragment(), MovieSelectedListener {
@@ -20,9 +20,7 @@ class MovieListFragment : Fragment(), MovieSelectedListener {
     private lateinit var binding: FragmentMovieListBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MovieRecyclerViewAdapter
-    private val viewModel by navGraphViewModels<MovieDetailsViewModel>(R.id.nav_graph) {
-        defaultViewModelProviderFactory
-    }
+    val viewModel by hiltNavGraphViewModels<MovieDetailsViewModel>(R.id.nav_graph)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.navGraphViewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.guilhermemarx14.mymovieapp.R
 import com.guilhermemarx14.mymovieapp.databinding.FragmentMovieDetailsBinding
 import com.guilhermemarx14.mymovieapp.viewmodel.MovieDetailsViewModel
@@ -17,7 +17,7 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var binding: FragmentMovieDetailsBinding
     private lateinit var carousel: ImageCarousel
     private lateinit var postersAndBackdropsTextView: TextView
-    private val viewModel by navGraphViewModels<MovieDetailsViewModel>(R.id.nav_graph){ defaultViewModelProviderFactory }
+    val viewModel by hiltNavGraphViewModels<MovieDetailsViewModel>(R.id.nav_graph)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

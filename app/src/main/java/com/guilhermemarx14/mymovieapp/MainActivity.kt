@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -17,8 +16,9 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.guilhermemarx14.mymovieapp.databinding.ActivityMainBinding
-import com.guilhermemarx14.mymovieapp.viewmodel.MovieDetailsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
@@ -28,15 +28,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawer: DrawerLayout
     private lateinit var navDrawer: NavigationView
     private lateinit var titleTextView: TextView
-    private lateinit var viewModel : MovieDetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupBinding()
         setupToolbar()
         setupNavigationComponents()
-        viewModel = ViewModelProvider(this)[MovieDetailsViewModel::class.java]
-        lifecycle.addObserver(viewModel)
     }
 
     private fun setupToolbar() {

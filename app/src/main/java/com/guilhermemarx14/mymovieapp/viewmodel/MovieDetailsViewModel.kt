@@ -1,6 +1,5 @@
 package com.guilhermemarx14.mymovieapp.viewmodel
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import com.guilhermemarx14.mymovieapp.model.DataState
@@ -8,9 +7,14 @@ import com.guilhermemarx14.mymovieapp.model.ImagesResponse
 import com.guilhermemarx14.mymovieapp.model.Movie
 import com.guilhermemarx14.mymovieapp.model.MovieListItem
 import com.guilhermemarx14.mymovieapp.repository.MovieRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MovieDetailsViewModel(application: Application) : AndroidViewModel(application),
+@HiltViewModel
+class MovieDetailsViewModel @Inject constructor(
+    var repository: MovieRepository
+) : ViewModel(),
     LifecycleEventObserver {
 
     val movieDetailsLiveData: LiveData<Movie>
@@ -38,13 +42,42 @@ class MovieDetailsViewModel(application: Application) : AndroidViewModel(applica
         get() = _carouselImagesLiveData
     private val _carouselImagesLiveData = MutableLiveData<ImagesResponse?>()
 
-    private val repository = MovieRepository(application)
+    fun onMovieSelected(position: Int) {
+        _detailsStateLiveData.postValue(DataState.LOADING)
+        movieListLiveData.value?.get(position)?.id?.let { id ->
+            viewModelScope.launch {
+                val response = repository.getMovieDetails(id)
 
-    fun onMovieSelected(position: Int){
-        Log.d("movieApp", "Movie Selection not implemented")
+                response.fold(
+                    onSuccess = {
+                        _detailsStateLiveData.postValue(DataState.SUCCESS)
+                        _movieDetailsLiveData.postValue(it)
+                    },
+                    onFailure = {
+                        _detailsStateLiveData.postValue(DataState.ERROR)
+                        Log.e("movieApp", "${it.message}")
+                    }
+                )
+            }
+
+            viewModelScope.launch {
+                val response = repository.getMovieImages(id)
+
+                response.fold(
+                    onSuccess = {
+                        _carouselImagesLiveData.postValue(it)
+                    },
+                    onFailure = {
+                        Log.e("movieApp", "${it.message}")
+                    }
+                )
+            }
+        }
+
+        _navigateToDetailsLiveData.postValue(Event(Unit))
     }
 
-    fun getMovieList(){
+    fun getMovieList() {
         _listStateLiveData.postValue(DataState.LOADING)
         viewModelScope.launch {
             val movieListResult = repository.getMovieListData()
@@ -56,12 +89,12 @@ class MovieDetailsViewModel(application: Application) : AndroidViewModel(applica
                 },
                 onFailure = {
                     _listStateLiveData.postValue(DataState.ERROR)
+                    Log.e("movieApp", "${it.message}")
                 }
             )
 
         }
     }
-
 
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
