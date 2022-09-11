@@ -36,4 +36,9 @@ interface MoviesService {
         @Path("movie_id") id: Int,
         @Query("api_key") key: String
     ) : Response<ImagesResponse>
+
+    @GET("/3/genre/movie/list")
+    suspend fun getAllGenres(
+        @Query("api_key") key: String
+    ) : Response<GenresResponse>
 }

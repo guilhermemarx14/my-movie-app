@@ -22,3 +22,8 @@ data class Genre(
     val name: String?,
     @ColumnInfo(index = true) var movieId: Int?
 )
+
+@JsonClass(generateAdapter = true)
+data class GenresResponse(
+    val genres: List<Genre>
+)

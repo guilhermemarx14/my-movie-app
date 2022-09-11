@@ -50,6 +50,11 @@ class LocalDatabaseDataSource @Inject constructor() : MovieDataSource {
         return Result.success(null)
     }
 
+    override suspend fun getAllGenres(): Result<GenresResponse?> {
+        Log.d("movieApp", "Not implemented")
+        return Result.success(null)
+    }
+
     private suspend fun loadMovieListData() = movieListItemDAO.getAllMovieListItems()
 
     private fun mapMovieGenreRelationToMovie(movieGenreRelation: MovieGenreRelation): Movie {
