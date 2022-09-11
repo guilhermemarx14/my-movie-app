@@ -28,5 +28,5 @@ data class WatchProvider(
     val provider_id: Int?,
     val provider_name: String?
 ){
-    fun getLogoPath() = logo_path?.let { "https://image.tmdb.org/t/p/w45${logo_path}" } ?: ""
+    fun getLogoPath() = logo_path?.let { "https://image.tmdb.org/t/p/original${logo_path}" } ?: ""
 }

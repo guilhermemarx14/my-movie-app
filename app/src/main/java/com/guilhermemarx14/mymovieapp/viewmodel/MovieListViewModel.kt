@@ -42,7 +42,6 @@ class MovieListViewModel @Inject constructor(
             movieListResult.fold(
                 onSuccess = {
                     _movieListLiveData.postValue(it)
-                    Log.d("movieApp", "ID - ${it?.get(0)?.id}")
                     _listStateLiveData.postValue(DataState.SUCCESS)
                 },
                 onFailure = {

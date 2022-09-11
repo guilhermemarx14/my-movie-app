@@ -1,6 +1,5 @@
 package com.guilhermemarx14.mymovieapp.view.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +14,6 @@ class MovieRecyclerViewAdapter(
     private var values: List<MovieListItem> = ArrayList()
 
     fun updateValues(hqList: List<MovieListItem>){
-        Log.d("movieApp","updateValues")
         values = hqList
         notifyDataSetChanged()
     }

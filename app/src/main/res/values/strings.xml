@@ -3,6 +3,7 @@
     <string name="share_button_title">SHARE</string>
     <string name="details_button_title">Details</string>
     <string name="posters_title">Posters and Backdrops</string>
+    <string name="available_at">Available At</string>
     <string name="search">Search</string>
     <string name="error_message">Ops, error</string>
     <string name="list_title">Movies List</string>

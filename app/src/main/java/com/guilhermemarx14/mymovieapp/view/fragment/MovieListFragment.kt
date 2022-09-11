@@ -70,7 +70,6 @@ class MovieListFragment : Fragment(), MovieSelectedListener {
     }
 
     override fun onItemSelected(position: Int) {
-        Log.d("movieApp", "OnItemSelected")
         movieListViewModel.movieListLiveData.value?.get(position)?.id?.let { id ->
             Log.d("movieApp", "Selected id - $id")
             movieDetailsViewModel.getMovie(id)

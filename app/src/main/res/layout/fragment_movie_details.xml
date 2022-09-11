@@ -17,6 +17,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:orientation="vertical">
 
         <ScrollView
@@ -116,6 +117,34 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/postersAndBackdropsTextView"/>
+
+                <TextView
+                    android:id="@+id/availableAtTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/available_at"
+                    android:textColor="#B4000000"
+                    android:textStyle="bold"
+                    android:visibility="@{movieDetailViewModel.watchProvidersLiveData.results.BR.flatrate.empty ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/carousel" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/watchProvidersFlexboxLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/availableAtTextView"
+                    app:justifyContent="space_around"
+                    app:flexWrap="wrap"
+                    app:alignItems="stretch"
+                    app:alignContent="stretch">
+
+                </com.google.android.flexbox.FlexboxLayout>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
