@@ -1,9 +1,7 @@
 package com.guilhermemarx14.mymovieapp.repository
 
 
-import com.guilhermemarx14.mymovieapp.model.ImagesResponse
-import com.guilhermemarx14.mymovieapp.model.Movie
-import com.guilhermemarx14.mymovieapp.model.MovieListItem
+import com.guilhermemarx14.mymovieapp.model.*
 import com.guilhermemarx14.mymovieapp.repository.datasource.LocalDatabaseDataSource
 import com.guilhermemarx14.mymovieapp.repository.datasource.TmdbDataSource
 import javax.inject.Inject
@@ -38,6 +36,11 @@ class MovieRepository @Inject constructor(
     suspend fun getMovieImages(id: Int): Result<ImagesResponse?> =
         tmdbDataSource.getMovieImages(id)
 
+    suspend fun getMovieWatchProviders(id: Int): Result<MovieWatchProvidersResponse?> =
+        tmdbDataSource.getMovieWatchProviders(id)
+
+    suspend fun getMovieCredits(id: Int): Result<CreditsResponse?> =
+        tmdbDataSource.getMovieCredits(id)
 }
 
 

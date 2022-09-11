@@ -1,9 +1,7 @@
 package com.guilhermemarx14.mymovieapp.repository.datasource
 
 import android.util.Log
-import com.guilhermemarx14.mymovieapp.model.ImagesResponse
-import com.guilhermemarx14.mymovieapp.model.Movie
-import com.guilhermemarx14.mymovieapp.model.MovieListItem
+import com.guilhermemarx14.mymovieapp.model.*
 import com.guilhermemarx14.mymovieapp.model.relation.MovieGenreRelation
 import com.guilhermemarx14.mymovieapp.repository.dao.MovieDAO
 import com.guilhermemarx14.mymovieapp.repository.dao.MovieListItemDAO
@@ -38,6 +36,16 @@ class LocalDatabaseDataSource @Inject constructor() : MovieDataSource {
     }
 
     override suspend fun getMovieImages(id: Int): Result<ImagesResponse?> {
+        Log.d("movieApp", "Not implemented")
+        return Result.success(null)
+    }
+
+    override suspend fun getMovieWatchProviders(id: Int): Result<MovieWatchProvidersResponse?> {
+        Log.d("movieApp", "Not implemented")
+        return Result.success(null)
+    }
+
+    override suspend fun getMovieCredits(id: Int): Result<CreditsResponse?> {
         Log.d("movieApp", "Not implemented")
         return Result.success(null)
     }

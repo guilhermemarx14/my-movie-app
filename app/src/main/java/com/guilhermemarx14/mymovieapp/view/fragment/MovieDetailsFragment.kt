@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
@@ -16,7 +15,6 @@ import org.imaginativeworld.whynotimagecarousel.ImageCarousel
 class MovieDetailsFragment : Fragment() {
     private lateinit var binding: FragmentMovieDetailsBinding
     private lateinit var carousel: ImageCarousel
-    private lateinit var postersAndBackdropsTextView: TextView
     val viewModel by hiltNavGraphViewModels<MovieDetailsViewModel>(R.id.nav_graph)
 
     override fun onCreateView(
@@ -24,7 +22,6 @@ class MovieDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         setupDataBinding(inflater,container)
-        lifecycle.addObserver(viewModel)
         return binding.root
     }
 
@@ -35,7 +32,6 @@ class MovieDetailsFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.movieDetailViewModel = viewModel
         carousel = binding.carousel
-        postersAndBackdropsTextView = binding.postersAndBackdropsTextView
     }
 
 }

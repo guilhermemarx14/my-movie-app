@@ -1,8 +1,6 @@
 package com.guilhermemarx14.mymovieapp.repository.datasource
 
-import com.guilhermemarx14.mymovieapp.model.ImagesResponse
-import com.guilhermemarx14.mymovieapp.model.Movie
-import com.guilhermemarx14.mymovieapp.model.MovieListItem
+import com.guilhermemarx14.mymovieapp.model.*
 
 interface MovieDataSource {
     suspend fun getMovieListData(): Result<List<MovieListItem>?>
@@ -10,4 +8,6 @@ interface MovieDataSource {
     suspend fun clearData()
     suspend fun getMovieDetails(id: Int): Result<Movie?>
     suspend fun getMovieImages(id: Int): Result<ImagesResponse?>
+    suspend fun getMovieWatchProviders(id: Int): Result<MovieWatchProvidersResponse?>
+    suspend fun getMovieCredits(id: Int): Result<CreditsResponse?>
 }

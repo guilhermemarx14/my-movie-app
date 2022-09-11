@@ -1,8 +1,6 @@
 package com.guilhermemarx14.mymovieapp.repository.datasource
 
-import com.guilhermemarx14.mymovieapp.model.ImagesResponse
-import com.guilhermemarx14.mymovieapp.model.Movie
-import com.guilhermemarx14.mymovieapp.model.MovieListItem
+import com.guilhermemarx14.mymovieapp.model.*
 import com.guilhermemarx14.mymovieapp.service.MoviesService
 import com.guilhermemarx14.mymovieapp.util.ApiCredentials
 import kotlinx.coroutines.Dispatchers
@@ -45,6 +43,24 @@ class TmdbDataSource @Inject constructor() : MovieDataSource {
     override suspend fun getMovieImages(id: Int): Result<ImagesResponse?> =
         withContext(Dispatchers.IO) {
             val response = movieService.getMovieImages(id, ApiCredentials.key)
+            when{
+                response.isSuccessful -> Result.success(response.body())
+                else -> Result.failure(Throwable(response.message()))
+            }
+        }
+
+    override suspend fun getMovieWatchProviders(id: Int): Result<MovieWatchProvidersResponse?> =
+        withContext(Dispatchers.IO) {
+            val response = movieService.getMovieWatchProviders(id, ApiCredentials.key, "BR")
+            when{
+                response.isSuccessful -> Result.success(response.body())
+                else -> Result.failure(Throwable(response.message()))
+            }
+        }
+
+    override suspend fun getMovieCredits(id: Int): Result<CreditsResponse?> =
+        withContext(Dispatchers.IO) {
+            val response = movieService.getMovieCredits(id, ApiCredentials.key)
             when{
                 response.isSuccessful -> Result.success(response.body())
                 else -> Result.failure(Throwable(response.message()))
