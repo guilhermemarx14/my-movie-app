@@ -3,6 +3,7 @@ package com.guilhermemarx14.mymovieapp.repository.datasource
 import android.util.Log
 import com.guilhermemarx14.mymovieapp.model.*
 import com.guilhermemarx14.mymovieapp.model.relation.MovieGenreRelation
+import com.guilhermemarx14.mymovieapp.repository.dao.GenreDAO
 import com.guilhermemarx14.mymovieapp.repository.dao.MovieDAO
 import com.guilhermemarx14.mymovieapp.repository.dao.MovieListItemDAO
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +17,9 @@ class LocalDatabaseDataSource @Inject constructor() : MovieDataSource {
 
     @Inject
     lateinit var movieDAO: MovieDAO
+
+    @Inject
+    lateinit var genreDAO: GenreDAO
 
     override suspend fun getMovieListData(): Result<List<MovieListItem>?> =
         withContext(Dispatchers.IO) {
@@ -50,15 +54,19 @@ class LocalDatabaseDataSource @Inject constructor() : MovieDataSource {
         return Result.success(null)
     }
 
-    override suspend fun getAllGenres(): Result<GenresResponse?> {
-        Log.d("movieApp", "Not implemented")
-        return Result.success(null)
+    override suspend fun getGenresList(): Result<List<Genre>?> =
+        Result.success(genreDAO.getAllGenres())
+
+
+    override suspend fun saveGenresList(list: List<Genre>) {
+        genreDAO.clear()
+        genreDAO.insertList(list)
     }
 
     private suspend fun loadMovieListData() = movieListItemDAO.getAllMovieListItems()
 
     private fun mapMovieGenreRelationToMovie(movieGenreRelation: MovieGenreRelation): Movie {
-        movieGenreRelation.movie.genres = movieGenreRelation.genres
+        movieGenreRelation.movie.movieGenres = movieGenreRelation.movieGenres
         return movieGenreRelation.movie
     }
 

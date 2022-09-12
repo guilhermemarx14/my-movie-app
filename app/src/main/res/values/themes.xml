@@ -19,4 +19,9 @@
         <item name="windowNoTitle">true</item>
         <item name="android:textColor">@color/grey_dark</item>
     </style>
+
+    <style name="BackGroundImageView">
+        <item name="android:alpha">0.5</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
 </resources>

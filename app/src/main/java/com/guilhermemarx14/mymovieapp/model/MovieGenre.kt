@@ -16,14 +16,23 @@ import com.squareup.moshi.JsonClass
         )
     ]
 )
+
 @JsonClass(generateAdapter = true)
-data class Genre(
-    @PrimaryKey val id:Int?,
+data class MovieGenre(
+    @PrimaryKey val id: Int?,
     val name: String?,
     @ColumnInfo(index = true) var movieId: Int?
 )
 
 @JsonClass(generateAdapter = true)
 data class GenresResponse(
-    val genres: List<Genre>
+    val genres: List<Genre>?
 )
+
+@Entity
+@JsonClass(generateAdapter = true)
+data class Genre(
+    @PrimaryKey val id: Int?,
+    val name: String?
+)
+

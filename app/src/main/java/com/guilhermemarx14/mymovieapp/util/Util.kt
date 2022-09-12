@@ -10,7 +10,7 @@ import java.math.RoundingMode
 class Util {
     companion object{
 
-        var genres : List<Genre>? = null
+        var movieGenres : List<Genre>? = null
         fun configureCardAppearance(card: CardView, radius: Float, elevation: Float) {
             card.radius = radius
             card.cardElevation = elevation
@@ -33,7 +33,7 @@ class Util {
 
         fun getGenres(ids: List<Int>?): List<Genre>?{
             return ids?.let{
-                genres?.filter {it.id in ids}
+                movieGenres?.filter {it.id in ids}
             }
         }
     }

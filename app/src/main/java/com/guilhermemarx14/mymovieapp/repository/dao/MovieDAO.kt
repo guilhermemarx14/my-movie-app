@@ -11,7 +11,7 @@ import javax.inject.Inject
 abstract class MovieDAO(
 ): BaseDAO<Movie> {
     @Inject
-    lateinit var genreDAO : GenreDAO
+    lateinit var genreDAO : MovieGenreDAO
 
     @Transaction
     @Query("SELECT * FROM Movie")
@@ -28,12 +28,12 @@ abstract class MovieDAO(
 
     @Transaction
     open suspend fun insertMovieDetails(movie: Movie){
-        movie.genres?.forEach {
+        movie.movieGenres?.forEach {
             it.movieId = movie.id
         }
 
         insertEntity(movie)
-        movie.genres?.let {
+        movie.movieGenres?.let {
             genreDAO.insertList(it)
         }
     }

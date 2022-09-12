@@ -24,9 +24,9 @@ class MovieDetailsViewModel @Inject constructor(
         get() = _carouselImagesLiveData
     private val _carouselImagesLiveData = MutableLiveData<ImagesResponse?>()
 
-    val watchProvidersLiveData: LiveData<MovieWatchProvidersResponse?>
+    val watchProvidersLiveData: LiveData<List<WatchProvider>?>
         get() = _watchProvidersLiveData
-    private val _watchProvidersLiveData = MutableLiveData<MovieWatchProvidersResponse?>()
+    private val _watchProvidersLiveData = MutableLiveData<List<WatchProvider>?>()
 
     val creditsLiveData: LiveData<CreditsResponse?>
         get() = _creditsLiveData
@@ -81,7 +81,7 @@ class MovieDetailsViewModel @Inject constructor(
 
         response.fold(
             onSuccess = {
-                _watchProvidersLiveData.postValue(it)
+                _watchProvidersLiveData.postValue(it?.results?.BR?.flatrate)
             },
             onFailure = {
                 Log.e("movieApp", "${it.message}")

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.guilhermemarx14.mymovieapp.repository.dao.GenreDAO
 import com.guilhermemarx14.mymovieapp.repository.dao.MovieDAO
+import com.guilhermemarx14.mymovieapp.repository.dao.MovieGenreDAO
 import com.guilhermemarx14.mymovieapp.repository.dao.MovieListItemDAO
 import com.guilhermemarx14.mymovieapp.repository.database.MyMovieAppDatabase
 import dagger.Module
@@ -22,12 +23,16 @@ class DatabaseModule {
         db.movieListItemDAO()
 
     @Provides
-    fun provideGenreDAO(db: MyMovieAppDatabase): GenreDAO =
-        db.genreDao()
+    fun provideMovieGenreDAO(db: MyMovieAppDatabase): MovieGenreDAO =
+        db.movieGenreDao()
 
     @Provides
     fun provideMovieDAO(db: MyMovieAppDatabase): MovieDAO =
         db.movieDetailsDAO(db)
+
+    @Provides
+    fun provideGenreDAO(db: MyMovieAppDatabase): GenreDAO =
+        db.genreDao()
 
     @Provides
     @Singleton

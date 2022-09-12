@@ -11,5 +11,6 @@ interface MovieDataSource {
     suspend fun getMovieImages(id: Int): Result<ImagesResponse?>
     suspend fun getMovieWatchProviders(id: Int): Result<MovieWatchProvidersResponse?>
     suspend fun getMovieCredits(id: Int): Result<CreditsResponse?>
-    suspend fun getAllGenres(): Result<GenresResponse?>
+    suspend fun getGenresList(): Result<List<Genre>?>
+    suspend fun saveGenresList(list: List<Genre>)
 }

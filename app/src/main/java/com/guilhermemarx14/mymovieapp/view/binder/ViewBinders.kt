@@ -1,8 +1,13 @@
 package com.guilhermemarx14.mymovieapp.view.binder
 
 import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.google.android.flexbox.FlexboxLayout
+import com.guilhermemarx14.mymovieapp.model.WatchProvider
+import com.guilhermemarx14.mymovieapp.util.Util
 import org.imaginativeworld.whynotimagecarousel.ImageCarousel
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
@@ -21,5 +26,27 @@ fun ImageView.bindSrcUrl(
 fun ImageCarousel.imageList(imageList: List<CarouselItem>?){
     imageList?.let{
         this.setData(imageList)
+    }
+}
+
+@BindingAdapter("cardList")
+fun FlexboxLayout.cardList(cardList: List<WatchProvider>?){
+    cardList?.forEach {provider ->
+        val providerCard = CardView(this.context)
+
+        Util.configureCardLayout(providerCard, listOf(0, 0, 0, 20))
+        Util.configureCardAppearance(providerCard, 60F,20F)
+
+        val imageView = ImageView(this.context)
+
+        imageView.layoutParams = LinearLayout.LayoutParams(100,100)
+        imageView.layoutParams.width *= 2
+        imageView.layoutParams.height *= 2
+
+        imageView.bindSrcUrl(provider.getLogoPath())
+
+        providerCard.addView(imageView)
+
+        this.addView(providerCard)
     }
 }

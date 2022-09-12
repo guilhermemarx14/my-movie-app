@@ -30,6 +30,11 @@ class MovieListViewModel @Inject constructor(
         get() = _listStateLiveData
     private val _listStateLiveData = MutableLiveData<DataState>()
 
+    init {
+        viewModelScope.launch {
+            repository.getGenresList()
+        }
+    }
     fun navigateToDetails(){
         _navigateToDetailsLiveData.postValue(Event(Unit))
     }

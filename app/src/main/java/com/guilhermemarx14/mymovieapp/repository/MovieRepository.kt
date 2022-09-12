@@ -1,27 +1,31 @@
 package com.guilhermemarx14.mymovieapp.repository
 
 
+import android.util.Log
 import com.guilhermemarx14.mymovieapp.model.*
 import com.guilhermemarx14.mymovieapp.repository.datasource.LocalDatabaseDataSource
 import com.guilhermemarx14.mymovieapp.repository.datasource.TmdbDataSource
+import com.guilhermemarx14.mymovieapp.util.Util
 import javax.inject.Inject
 
 class MovieRepository @Inject constructor(
     var tmdbDataSource: TmdbDataSource,
     var localDatabaseDataSource: LocalDatabaseDataSource
 ) {
-    suspend fun getMovieListData(): Result<List<MovieListItem>?> {
-        return try {
+    suspend fun getMovieListData(): Result<List<MovieListItem>?> =
+        try {
             val tmdbList = tmdbDataSource.getMovieListData()
 
             if (tmdbList.isSuccess) {
+
                 persistData(tmdbList.getOrNull())
                 tmdbList
             } else localDatabaseDataSource.getMovieListData()
         } catch (e: Exception) {
+            Log.e("movieApp", "exception - $e")
             Result.failure(e)
         }
-    }
+
 
     private suspend fun persistData(movieList: List<MovieListItem>?) {
         movieList?.let {
@@ -41,6 +45,20 @@ class MovieRepository @Inject constructor(
 
     suspend fun getMovieCredits(id: Int): Result<CreditsResponse?> =
         tmdbDataSource.getMovieCredits(id)
+
+    suspend fun getGenresList() {
+        if (Util.movieGenres.isNullOrEmpty())
+            Util.movieGenres = localDatabaseDataSource.getGenresList().getOrNull()
+
+        if (Util.movieGenres.isNullOrEmpty()) {
+            val retrofitList = tmdbDataSource.getGenresList()
+
+            if (retrofitList.isSuccess) {
+                localDatabaseDataSource.saveGenresList(retrofitList.getOrNull()!!)
+                Util.movieGenres = retrofitList.getOrNull()
+            }
+        }
+    }
 }
 
 

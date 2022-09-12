@@ -15,7 +15,7 @@ class Movie() {
     var poster_path: String? = null
 
     @Ignore
-    var genres: List<Genre>? = null
+    var movieGenres: List<MovieGenre>? = null
     var vote_average: Double? = null
     var tagline: String? = null
     var title: String? = null
@@ -32,7 +32,7 @@ class Movie() {
     constructor(
         id: Int?,
         poster_path: String?,
-        genres: List<Genre>?,
+        movieGenres: List<MovieGenre>?,
         vote_average: Double?,
         tagline: String?,
         title: String?,
@@ -47,7 +47,7 @@ class Movie() {
     ) : this() {
         this.id = id
         this.poster_path = poster_path
-        this.genres = genres
+        this.movieGenres = movieGenres
         this.vote_average = vote_average
         this.tagline = tagline
         this.title = title
