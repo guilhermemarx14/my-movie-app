@@ -58,7 +58,7 @@ class MovieDetailsViewModel @Inject constructor(
             },
             onFailure = {
                 _detailsStateLiveData.postValue(DataState.ERROR)
-                Log.e("movieApp", "${it.message}")
+                Log.e("movieApp", "Failure on getMovieDetails ${it.message}")
             }
         )
     }
@@ -71,7 +71,7 @@ class MovieDetailsViewModel @Inject constructor(
                 _carouselImagesLiveData.postValue(it)
             },
             onFailure = {
-                Log.e("movieApp", "${it.message}")
+                Log.e("movieApp", "Failure on getMovieImages ${it.message}")
             }
         )
     }
@@ -81,10 +81,10 @@ class MovieDetailsViewModel @Inject constructor(
 
         response.fold(
             onSuccess = {
-                _watchProvidersLiveData.postValue(it?.results?.BR?.flatrate)
+                _watchProvidersLiveData.postValue(it?.results?.BR?.flatrate.orEmpty())
             },
             onFailure = {
-                Log.e("movieApp", "${it.message}")
+                Log.e("movieApp", "Failure on getMovieWatchProviders ${it.message}")
             }
         )
     }
@@ -97,7 +97,7 @@ class MovieDetailsViewModel @Inject constructor(
                 _creditsLiveData.postValue(it)
             },
             onFailure = {
-                Log.e("movieApp", "${it.message}")
+                Log.e("movieApp", "Failure on getMovieCredits ${it.message}")
             }
         )
     }

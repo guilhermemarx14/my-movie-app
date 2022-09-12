@@ -1,7 +1,6 @@
 package com.guilhermemarx14.mymovieapp.repository
 
 
-import android.util.Log
 import com.guilhermemarx14.mymovieapp.model.*
 import com.guilhermemarx14.mymovieapp.repository.datasource.LocalDatabaseDataSource
 import com.guilhermemarx14.mymovieapp.repository.datasource.TmdbDataSource
@@ -14,15 +13,12 @@ class MovieRepository @Inject constructor(
 ) {
     suspend fun getMovieListData(): Result<List<MovieListItem>?> =
         try {
-            val tmdbList = tmdbDataSource.getMovieListData()
+            val list = tmdbDataSource.getMovieListData()
 
-            if (tmdbList.isSuccess) {
-
-                persistData(tmdbList.getOrNull())
-                tmdbList
-            } else localDatabaseDataSource.getMovieListData()
+            if (list.isSuccess)
+                persistData(list.getOrNull())
+            list
         } catch (e: Exception) {
-            Log.e("movieApp", "exception - $e")
             Result.failure(e)
         }
 

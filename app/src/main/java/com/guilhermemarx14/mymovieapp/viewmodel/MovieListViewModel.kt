@@ -51,7 +51,7 @@ class MovieListViewModel @Inject constructor(
                 },
                 onFailure = {
                     _listStateLiveData.postValue(DataState.ERROR)
-                    Log.e("movieApp", "${it.message}")
+                    Log.e("movieApp", "Failure on getMovieList ${it.message}")
                 }
             )
 

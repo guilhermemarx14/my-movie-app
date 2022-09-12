@@ -31,7 +31,8 @@ fun ImageCarousel.imageList(imageList: List<CarouselItem>?){
 
 @BindingAdapter("cardList")
 fun FlexboxLayout.cardList(cardList: List<WatchProvider>?){
-    cardList?.forEach {provider ->
+    this.removeAllViews()
+    cardList?.distinctBy{ it.provider_id }?.forEach { provider ->
         val providerCard = CardView(this.context)
 
         Util.configureCardLayout(providerCard, listOf(0, 0, 0, 20))

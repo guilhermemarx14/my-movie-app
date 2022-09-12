@@ -70,6 +70,15 @@ class MovieListFragment : Fragment(), MovieSelectedListener {
     }
 
     override fun onItemSelected(position: Int) {
+        /*movieListViewModel.movieListLiveData.value?.get(position)?.overview?.let {
+            Snackbar.make(requireView(), it, Snackbar.LENGTH_INDEFINITE)
+            .setTextMaxLines(5)
+            .setAction(R.string.close){ }
+            .show()
+        }*/
+    }
+
+    override fun onDetailsSelected(position: Int) {
         movieListViewModel.movieListLiveData.value?.get(position)?.id?.let { id ->
             Log.d("movieApp", "Selected id - $id")
             movieDetailsViewModel.getMovie(id)

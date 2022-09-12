@@ -28,6 +28,7 @@ class MovieRecyclerViewAdapter(
         val item = values[position]
         holder.bindItem(item)
         holder.viewRoot.setOnClickListener { listener.onItemSelected(position) }
+        holder.detailsButton.setOnClickListener { listener.onDetailsSelected(position) }
     }
 
     override fun getItemCount(): Int = values.size
@@ -36,6 +37,8 @@ class MovieRecyclerViewAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         val viewRoot = binding.root
+        val detailsButton = binding.detailsButton
+
         fun bindItem(item: MovieListItem) {
             binding.movieItem = item
             binding.executePendingBindings()

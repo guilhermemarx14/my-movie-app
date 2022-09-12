@@ -9,7 +9,7 @@ class Converter {
     @TypeConverter
     fun toList(value: String?): List<Int>? =
         value?.let{
-            val stringList = value.removePrefix("[").removeSuffix("]").split(',').toList()
+            val stringList = value.removePrefix("[").removeSuffix("]").replace(" ", "").split(',').toList()
             val intList = mutableListOf<Int>()
             stringList.forEach { intList.add(Integer.parseInt(it)) }
             intList

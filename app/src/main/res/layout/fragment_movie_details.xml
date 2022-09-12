@@ -26,6 +26,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+
             android:layout_marginTop="42dp"
             tools:ignore="ContentDescription"
             app:srcUrl="@{movieDetailViewModel.movieDetailsLiveData.imagePath}"
@@ -119,6 +120,9 @@
                         android:id="@+id/carousel"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
                         android:visibility="@{movieDetailViewModel.carouselImagesLiveData.carouselItems.empty ? View.GONE : View.VISIBLE}"
                         app:imageList="@{movieDetailViewModel.carouselImagesLiveData.carouselItems}"
                         app:layout_constraintEnd_toEndOf="parent"
