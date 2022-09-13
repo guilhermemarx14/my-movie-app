@@ -11,10 +11,16 @@ class MovieRepository @Inject constructor(
     var tmdbDataSource: TmdbDataSource,
     var localDatabaseDataSource: LocalDatabaseDataSource
 ) {
-    suspend fun getMovieListData(): Result<List<MovieListItem>?> =
-        try {
-            val list = tmdbDataSource.getMovieListData()
 
+
+    suspend fun getMovieListData(type: MovieListType): Result<List<MovieListItem>?> =
+        try {
+            val list = when (type) {
+                MovieListType.POPULAR -> tmdbDataSource.getPopularListData()
+                MovieListType.NOW_PLAYING -> tmdbDataSource.getNowPlayingListData()
+                MovieListType.TOP_RATED -> tmdbDataSource.getTopRatedListData()
+                MovieListType.UPCOMING -> tmdbDataSource.getUpcomingListData()
+            }
             if (list.isSuccess)
                 persistData(list.getOrNull())
             list

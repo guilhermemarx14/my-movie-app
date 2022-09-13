@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.guilhermemarx14.mymovieapp.model.DataState
 import com.guilhermemarx14.mymovieapp.model.MovieListItem
+import com.guilhermemarx14.mymovieapp.model.MovieListType
 import com.guilhermemarx14.mymovieapp.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -30,19 +31,15 @@ class MovieListViewModel @Inject constructor(
         get() = _listStateLiveData
     private val _listStateLiveData = MutableLiveData<DataState>()
 
-    init {
-        viewModelScope.launch {
-            repository.getGenresList()
-        }
-    }
+
     fun navigateToDetails(){
         _navigateToDetailsLiveData.postValue(Event(Unit))
     }
 
-    fun getMovieList() {
+    fun getMovieList(type: MovieListType) {
         _listStateLiveData.postValue(DataState.LOADING)
         viewModelScope.launch {
-            val movieListResult = repository.getMovieListData()
+            val movieListResult = repository.getMovieListData(type)
 
             movieListResult.fold(
                 onSuccess = {

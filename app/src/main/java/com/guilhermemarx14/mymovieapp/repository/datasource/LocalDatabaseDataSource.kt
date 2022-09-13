@@ -6,8 +6,6 @@ import com.guilhermemarx14.mymovieapp.model.relation.MovieGenreRelation
 import com.guilhermemarx14.mymovieapp.repository.dao.GenreDAO
 import com.guilhermemarx14.mymovieapp.repository.dao.MovieDAO
 import com.guilhermemarx14.mymovieapp.repository.dao.MovieListItemDAO
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class LocalDatabaseDataSource @Inject constructor() : MovieDataSource {
@@ -21,10 +19,25 @@ class LocalDatabaseDataSource @Inject constructor() : MovieDataSource {
     @Inject
     lateinit var genreDAO: GenreDAO
 
-    override suspend fun getMovieListData(): Result<List<MovieListItem>?> =
-        withContext(Dispatchers.IO) {
-            Result.success(loadMovieListData())
-        }
+    override suspend fun getPopularListData(): Result<List<MovieListItem>?> {
+        Log.d("movieApp", "Not implemented")
+        return Result.success(null)
+    }
+
+    override suspend fun getTopRatedListData(): Result<List<MovieListItem>?> {
+        Log.d("movieApp", "Not implemented")
+        return Result.success(null)
+    }
+
+    override suspend fun getNowPlayingListData(): Result<List<MovieListItem>?> {
+        Log.d("movieApp", "Not implemented")
+        return Result.success(null)
+    }
+
+    override suspend fun getUpcomingListData(): Result<List<MovieListItem>?> {
+        Log.d("movieApp", "Not implemented")
+        return Result.success(null)
+    }
 
     override suspend fun saveMovieListData(movies: List<MovieListItem>) {
         movieListItemDAO.insertList(movies)

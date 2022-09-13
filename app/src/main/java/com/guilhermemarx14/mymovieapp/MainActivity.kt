@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navHost: NavHostFragment
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var toolbar: Toolbar
-    private lateinit var drawer: DrawerLayout
-    private lateinit var navDrawer: NavigationView
+    lateinit var drawer: DrawerLayout
+    lateinit var navDrawer: NavigationView
     private lateinit var titleTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {

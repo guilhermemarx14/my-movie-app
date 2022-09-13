@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.guilhermemarx14.mymovieapp.R
@@ -24,6 +25,7 @@ class MovieListFragment : Fragment(), MovieSelectedListener {
     private lateinit var adapter: MovieRecyclerViewAdapter
     private val movieListViewModel by hiltNavGraphViewModels<MovieListViewModel>(R.id.nav_graph)
     private val movieDetailsViewModel by hiltNavGraphViewModels<MovieDetailsViewModel>(R.id.nav_graph)
+    private val args: MovieListFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +39,7 @@ class MovieListFragment : Fragment(), MovieSelectedListener {
 
     override fun onResume() {
         super.onResume()
-        movieListViewModel.getMovieList()
+        movieListViewModel.getMovieList(args.listType)
     }
 
     private fun setupBinding(inflater: LayoutInflater){

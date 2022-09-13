@@ -7,8 +7,24 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MoviesService {
-    @GET("/3/movie/top_rated")
+
+    @GET("/3/movie/now_playing")
+    suspend fun getNowPlayingList(
+        @Query("api_key") key: String
+    ) : Response<MovieListResponse>
+
+    @GET("/3/movie/popular")
     suspend fun getPopularList(
+        @Query("api_key") key: String
+    ) : Response<MovieListResponse>
+
+    @GET("/3/movie/top_rated")
+    suspend fun getTopRatedList(
+        @Query("api_key") key: String
+    ) : Response<MovieListResponse>
+
+    @GET("/3/movie/upcoming")
+    suspend fun getUpcomingList(
         @Query("api_key") key: String
     ) : Response<MovieListResponse>
 
