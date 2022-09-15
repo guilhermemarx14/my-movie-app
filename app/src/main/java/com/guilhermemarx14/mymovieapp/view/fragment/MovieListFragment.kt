@@ -11,8 +11,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.guilhermemarx14.mymovieapp.MainActivity
 import com.guilhermemarx14.mymovieapp.R
 import com.guilhermemarx14.mymovieapp.databinding.FragmentMovieListBinding
+import com.guilhermemarx14.mymovieapp.model.MovieListType
 import com.guilhermemarx14.mymovieapp.view.adapter.MovieRecyclerViewAdapter
 import com.guilhermemarx14.mymovieapp.view.adapter.MovieSelectedListener
 import com.guilhermemarx14.mymovieapp.viewmodel.MovieDetailsViewModel
@@ -23,6 +25,7 @@ class MovieListFragment : Fragment(), MovieSelectedListener {
     private lateinit var binding: FragmentMovieListBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MovieRecyclerViewAdapter
+    private lateinit var hostActivity: MainActivity
     private val movieListViewModel by hiltNavGraphViewModels<MovieListViewModel>(R.id.nav_graph)
     private val movieDetailsViewModel by hiltNavGraphViewModels<MovieDetailsViewModel>(R.id.nav_graph)
     private val args: MovieListFragmentArgs by navArgs()
@@ -46,7 +49,16 @@ class MovieListFragment : Fragment(), MovieSelectedListener {
         binding = FragmentMovieListBinding.inflate(inflater)
         recyclerView = binding.list
         binding.viewModel = movieListViewModel
+        hostActivity = activity as MainActivity
         binding.lifecycleOwner = this
+
+        val title = when(args.listType){
+            MovieListType.NOW_PLAYING -> resources.getString(R.string.now_playing_title)
+            MovieListType.UPCOMING -> resources.getString(R.string.upcoming_title)
+            MovieListType.POPULAR -> resources.getString(R.string.popular_title)
+            MovieListType.TOP_RATED -> resources.getString(R.string.top_rated_title)
+        }
+        hostActivity.titleTextView.text = resources.getString(R.string.list_title, title)
 
     }
 

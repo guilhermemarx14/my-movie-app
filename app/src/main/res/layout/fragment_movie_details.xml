@@ -14,177 +14,172 @@
             type="com.guilhermemarx14.mymovieapp.viewmodel.MovieDetailsViewModel" />
     </data>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000000" >
+        android:background="@color/white_50"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/backgroundImageView"
-            style="@style/BackGroundImageView"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
+            android:layout_height="match_parent">
 
-            android:layout_marginTop="42dp"
-            tools:ignore="ContentDescription"
-            app:srcUrl="@{movieDetailViewModel.movieDetailsLiveData.imagePath}"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{movieDetailViewModel.detailsStateLiveData == DataState.SUCCESS ? View.VISIBLE : View.GONE}"
+                tools:context=".view.fragment.MovieDetailsFragment">
 
-            />
+                <ImageView
+                    android:id="@+id/backgroundImageView"
+                    android:layout_width="200dp"
+                    android:layout_height="300dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcUrl="@{movieDetailViewModel.movieDetailsLiveData.imagePath}"
+
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/movieTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@{movieDetailViewModel.movieDetailsLiveData.titleWithYear}"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/backgroundImageView" />
+
+
+                <TextView
+                    android:id="@+id/taglineTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@{movieDetailViewModel.movieDetailsLiveData.tagline}"
+                    android:textStyle="italic"
+                    android:visibility="@{movieDetailViewModel.movieDetailsLiveData.tagline==null ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/movieTitleTextView" />
+
+                <TextView
+                    android:id="@+id/ratingsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@{movieDetailViewModel.movieDetailsLiveData.ratings}"
+                    android:visibility="@{movieDetailViewModel.movieDetailsLiveData.ratings==null ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/taglineTextView" />
+
+                <TextView
+                    android:id="@+id/contentText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="@{movieDetailViewModel.movieDetailsLiveData.overview}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ratingsTextView" />
+
+                <TextView
+                    android:id="@+id/postersAndBackdropsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/posters_title"
+                    android:textStyle="bold"
+                    android:visibility="@{movieDetailViewModel.carouselImagesLiveData.carouselItems.empty ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/contentText" />
+
+                <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+                    android:id="@+id/carousel"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:visibility="@{movieDetailViewModel.carouselImagesLiveData.carouselItems.empty ? View.GONE : View.VISIBLE}"
+                    app:imageList="@{movieDetailViewModel.carouselImagesLiveData.carouselItems}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/postersAndBackdropsTextView" />
+
+                <TextView
+                    android:id="@+id/availableAtTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/available_at"
+                    android:textStyle="bold"
+                    android:visibility="@{movieDetailViewModel.watchProvidersLiveData.empty ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/carousel" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/watchProvidersFlexboxLayout"
+                    cardList="@{movieDetailViewModel.watchProvidersLiveData}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="200dp"
+                    android:minHeight="100dp"
+                    android:orientation="horizontal"
+                    app:alignContent="stretch"
+                    app:alignItems="stretch"
+                    app:flexWrap="wrap"
+                    app:justifyContent="space_around"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/availableAtTextView">
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.8" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:background="@color/white_50">
+            android:gravity="center"
+            android:visibility="@{movieDetailViewModel.detailsStateLiveData == DataState.ERROR ? View.VISIBLE : View.GONE}">
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="@{movieDetailViewModel.detailsStateLiveData == DataState.SUCCESS ? View.VISIBLE : View.GONE}"
-                    tools:context=".view.fragment.MovieDetailsFragment">
-
-                    <TextView
-                        android:id="@+id/movieTitleTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:text="@{movieDetailViewModel.movieDetailsLiveData.titleWithYear}"
-                        android:textColor="#B4000000"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-
-                    <TextView
-                        android:id="@+id/taglineTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="@{movieDetailViewModel.movieDetailsLiveData.tagline}"
-                        android:textColor="#B4000000"
-                        android:textStyle="italic"
-                        android:visibility="@{movieDetailViewModel.movieDetailsLiveData.tagline==null ? View.GONE : View.VISIBLE}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/movieTitleTextView" />
-
-                    <TextView
-                        android:id="@+id/ratingsTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"
-                        android:text="@{movieDetailViewModel.movieDetailsLiveData.ratings}"
-                        android:textColor="#B4000000"
-                        android:visibility="@{movieDetailViewModel.movieDetailsLiveData.ratings==null ? View.GONE : View.VISIBLE}"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/taglineTextView" />
-
-                    <TextView
-                        android:id="@+id/contentText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:text="@{movieDetailViewModel.movieDetailsLiveData.overview}"
-                        android:textColor="#B4000000"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ratingsTextView" />
-
-                    <TextView
-                        android:id="@+id/postersAndBackdropsTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
-                        android:text="@string/posters_title"
-                        android:textColor="#B4000000"
-                        android:textStyle="bold"
-                        android:visibility="@{movieDetailViewModel.carouselImagesLiveData.carouselItems.empty ? View.GONE : View.VISIBLE}"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/contentText" />
-
-                    <org.imaginativeworld.whynotimagecarousel.ImageCarousel
-                        android:id="@+id/carousel"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
-                        android:visibility="@{movieDetailViewModel.carouselImagesLiveData.carouselItems.empty ? View.GONE : View.VISIBLE}"
-                        app:imageList="@{movieDetailViewModel.carouselImagesLiveData.carouselItems}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/postersAndBackdropsTextView" />
-
-                    <TextView
-                        android:id="@+id/availableAtTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
-                        android:text="@string/available_at"
-                        android:textColor="#B4000000"
-                        android:textStyle="bold"
-                        android:visibility="@{movieDetailViewModel.watchProvidersLiveData.empty ? View.GONE : View.VISIBLE}"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/carousel" />
-
-                    <com.google.android.flexbox.FlexboxLayout
-                        android:id="@+id/watchProvidersFlexboxLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:orientation="horizontal"
-                        app:alignContent="stretch"
-                        app:alignItems="stretch"
-                        app:flexWrap="wrap"
-                        app:justifyContent="space_around"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/availableAtTextView"
-                        cardList="@{movieDetailViewModel.watchProvidersLiveData}">
-
-                    </com.google.android.flexbox.FlexboxLayout>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </ScrollView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:visibility="@{movieDetailViewModel.detailsStateLiveData == DataState.ERROR ? View.VISIBLE : View.GONE}">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/error_message" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:visibility="@{movieDetailViewModel.detailsStateLiveData == DataState.LOADING ? View.VISIBLE : View.GONE}">
-
-                <ProgressBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/error_message" />
         </LinearLayout>
-    </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="@{movieDetailViewModel.detailsStateLiveData == DataState.LOADING ? View.VISIBLE : View.GONE}">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
 </layout>

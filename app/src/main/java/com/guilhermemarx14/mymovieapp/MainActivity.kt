@@ -27,13 +27,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     lateinit var drawer: DrawerLayout
     lateinit var navDrawer: NavigationView
-    private lateinit var titleTextView: TextView
+    lateinit var titleTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupBinding()
         setupToolbar()
         setupNavigationComponents()
+
     }
 
     private fun setupToolbar() {
@@ -61,6 +62,8 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+        navHost.context?.theme?.applyStyle(R.style.Theme_MyMovieApp_Fragment,true)
     }
 
     private fun setupBinding(){

@@ -9,4 +9,13 @@
     <color name="white_50">#80FFFFFF</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey_dark">#778b90</color>
+    <color name="primaryColor">#231f2d</color>
+    <color name="primaryLightColor">#4b4656</color>
+    <color name="primaryDarkColor">#19161d</color>
+    <color name="secondaryColor">#55348f</color>
+    <color name="secondaryLightColor">#855fc0</color>
+    <color name="secondaryDarkColor">#240a61</color>
+    <color name="primaryTextColor">#8c7fac</color>
+    <color name="secondaryTextColor">#f3ddff</color>
+    <color name="lightTextColor">#d3ceda</color>
 </resources>

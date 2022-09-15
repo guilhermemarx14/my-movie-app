@@ -15,10 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyMovieApp"
         android:name=".MyMovieApplication"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        tools:ignore="MissingClass">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.MyMovieApp.NoActionBar"
+            android:theme="@style/Theme.MyMovieApp.Toolbar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

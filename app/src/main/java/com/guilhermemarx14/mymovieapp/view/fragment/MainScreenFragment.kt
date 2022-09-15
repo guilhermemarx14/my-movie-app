@@ -49,6 +49,7 @@ class MainScreenFragment : Fragment(), NavigationView.OnNavigationItemSelectedLi
 
         hostActivity = activity as MainActivity
         binding.lifecycleOwner = this
+        hostActivity.titleTextView.text = resources.getString(R.string.main_screen_title)
 
     }
 

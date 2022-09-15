@@ -17,8 +17,7 @@
                 android:id="@+id/appBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
-                android:theme="?attr/actionBarTheme"
+                android:theme="@style/Theme.MyMovieApp.Toolbar"
                 app:title=" "
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +30,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/list_title"
                     android:layout_gravity="center"
-                    android:textColor="@android:color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </androidx.appcompat.widget.Toolbar>
