@@ -1,5 +1,6 @@
 package com.guilhermemarx14.mymovieapp
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -34,7 +35,12 @@ class MainActivity : AppCompatActivity() {
         setupBinding()
         setupToolbar()
         setupNavigationComponents()
+        applyTheme()
 
+    }
+
+    private fun applyTheme(){
+        //navHost.context?.theme?.applyStyle(R.style.Theme_MyMovieApp_Fragment,true)
     }
 
     private fun setupToolbar() {
@@ -63,7 +69,6 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        navHost.context?.theme?.applyStyle(R.style.Theme_MyMovieApp_Fragment,true)
     }
 
     private fun setupBinding(){

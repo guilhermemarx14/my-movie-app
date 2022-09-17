@@ -62,12 +62,35 @@ class Movie() {
     }
 
 
+    fun getReleaseDateWithRuntime():String?{
+        var returnString: String
+        release_date?.let {
+            returnString = Util.formatDateFromString(it,"MMMM dd, yyyy")
+            runtime?.let {
+                returnString += " | $runtime min"
+            }
+            return returnString
+        }
+        runtime?.let {
+            returnString = "$runtime min"
+            return returnString
+        }
+        return null
+    }
+
+    fun getBudgetText():String?{
+        return budget?.let {
+            "Budget: \$ $it,00"
+        }
+    }
+
+    fun getRevenueText():String?{
+        return revenue?.toString()
+    }
+
     fun getImagePath() = poster_path?.let { "https://image.tmdb.org/t/p/w500${it}" } ?: ""
 
-    fun getTitleWithYear() = release_date?.let { "$title (${it.split('-')[0]})" } ?: title
-
-
     fun getRatings() = vote_average?.let {
-        "Ratings: ${Util.formatDouble(it, 1)}"
+        "Ratings: ${Util.roundDouble(it, 1)}"
     }
 }

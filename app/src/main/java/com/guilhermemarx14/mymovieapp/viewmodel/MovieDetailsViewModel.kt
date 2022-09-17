@@ -81,7 +81,7 @@ class MovieDetailsViewModel @Inject constructor(
 
         response.fold(
             onSuccess = {
-                _watchProvidersLiveData.postValue(it?.results?.BR?.flatrate.orEmpty())
+                _watchProvidersLiveData.postValue(it?.results?.US?.flatrate.orEmpty())
             },
             onFailure = {
                 Log.e("movieApp", "Failure on getMovieWatchProviders ${it.message}")

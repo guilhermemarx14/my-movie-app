@@ -6,6 +6,16 @@
     app:startDestination="@id/mainScreenFragment">
 
     <fragment
+        android:id="@+id/mainScreenFragment"
+        android:name="com.guilhermemarx14.mymovieapp.view.fragment.MainScreenFragment"
+        android:label="fragment_main_screen"
+        tools:layout="@layout/fragment_main_screen">
+        <action
+            android:id="@+id/action_mainScreenFragment_to_movieListFragment"
+            app:destination="@id/movieListFragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/movieListFragment"
         android:name="com.guilhermemarx14.mymovieapp.view.fragment.MovieListFragment"
         android:label="fragment_movie_list"
@@ -17,18 +27,11 @@
             android:id="@+id/action_movieListFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/movieDetailFragment"
         android:name="com.guilhermemarx14.mymovieapp.view.fragment.MovieDetailsFragment"
         android:label="fragment_movie_detail"
         tools:layout="@layout/fragment_movie_details" />
-    <fragment
-        android:id="@+id/mainScreenFragment"
-        android:name="com.guilhermemarx14.mymovieapp.view.fragment.MainScreenFragment"
-        android:label="fragment_main_screen"
-        tools:layout="@layout/fragment_main_screen">
-        <action
-            android:id="@+id/action_mainScreenFragment_to_movieListFragment"
-            app:destination="@id/movieListFragment" />
-    </fragment>
+
 </navigation>

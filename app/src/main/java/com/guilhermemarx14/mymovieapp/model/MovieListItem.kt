@@ -25,6 +25,7 @@ data class MovieListItem(
     val genre_ids: List<Int>?,
     val popularity: Double?
 ) {
+
     fun getTitleWithYear(): String? {
         release_date?.let {
             return "$title (${release_date.split('-')[0]})"
@@ -35,7 +36,7 @@ data class MovieListItem(
     fun getImagePath() = poster_path?.let { "https://image.tmdb.org/t/p/w500${poster_path}" } ?: ""
 
     fun getRatings() = vote_average?.let {
-        "Ratings: ${Util.formatDouble(it, 1)}"
+        "Ratings: ${Util.roundDouble(it, 1)}"
     }
 
     fun getGenres(): String? =

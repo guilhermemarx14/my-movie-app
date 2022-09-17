@@ -16,10 +16,11 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayoutDetailsScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white_50"
         android:gravity="center_horizontal"
+        style="@style/Theme.MyMovieApp.DetailsScreen"
         android:orientation="vertical">
 
         <ScrollView
@@ -33,77 +34,95 @@
                 tools:context=".view.fragment.MovieDetailsFragment">
 
                 <ImageView
-                    android:id="@+id/backgroundImageView"
-                    android:layout_width="200dp"
-                    android:layout_height="300dp"
+                    android:id="@+id/mainPosterImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
+                    android:layout_marginStart="20dp"
                     android:scaleType="fitCenter"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcUrl="@{movieDetailViewModel.movieDetailsLiveData.imagePath}"
-
                     tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/movieTitleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="@{movieDetailViewModel.movieDetailsLiveData.titleWithYear}"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/backgroundImageView" />
+                    android:text="@{movieDetailViewModel.movieDetailsLiveData.title}"
+                    app:layout_constraintStart_toEndOf="@+id/mainPosterImageView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/ScreenDetailsText.Title.Main"
+                    />
 
+                <TextView
+                    android:id="@+id/releaseDateTextView"
+                    style="@style/ScreenDetailsText.ReleaseDate"
+                    android:text="@{movieDetailViewModel.movieDetailsLiveData.releaseDateWithRuntime}"
+                    android:visibility="@{movieDetailViewModel.movieDetailsLiveData.releaseDateWithRuntime==null ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintStart_toEndOf="@+id/mainPosterImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/movieTitleTextView" />
+
+                <View
+                    android:id="@+id/dividerPosterAndContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/mainPosterImageView"
+                    style="@style/Divider" />
 
                 <TextView
                     android:id="@+id/taglineTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:text="@{movieDetailViewModel.movieDetailsLiveData.tagline}"
-                    android:textStyle="italic"
                     android:visibility="@{movieDetailViewModel.movieDetailsLiveData.tagline==null ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/movieTitleTextView" />
-
-                <TextView
-                    android:id="@+id/ratingsTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@{movieDetailViewModel.movieDetailsLiveData.ratings}"
-                    android:visibility="@{movieDetailViewModel.movieDetailsLiveData.ratings==null ? View.GONE : View.VISIBLE}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/taglineTextView" />
+                    app:layout_constraintTop_toBottomOf="@+id/dividerPosterAndContent"
+                    style="@style/ScreenDetailsText.Tagline"/>
 
                 <TextView
                     android:id="@+id/contentText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
                     android:text="@{movieDetailViewModel.movieDetailsLiveData.overview}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ratingsTextView" />
+                    app:layout_constraintTop_toBottomOf="@+id/taglineTextView"
+                    style="@style/ScreenDetailsText"/>
+
+                <View
+                    android:id="@+id/dividerContentAndRatings"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/contentText"
+                    style="@style/Divider" />
+
+                <TextView
+                    android:id="@+id/ratingsTextView"
+                    android:text="@{movieDetailViewModel.movieDetailsLiveData.ratings}"
+                    android:visibility="@{movieDetailViewModel.movieDetailsLiveData.ratings==null ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dividerContentAndRatings"
+                    style="@style/ScreenDetailsText"/>
+
+                <TextView
+                    android:id="@+id/budgetTextView"
+                    android:text="@{movieDetailViewModel.movieDetailsLiveData.budgetText}"
+                    android:visibility="@{movieDetailViewModel.movieDetailsLiveData.budget==null ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ratingsTextView"
+                    style="@style/ScreenDetailsText"/>
+
+                <TextView
+                    android:id="@+id/revenueTextView"
+                    android:text="@{movieDetailViewModel.movieDetailsLiveData.revenueText}"
+                    android:visibility="@{movieDetailViewModel.movieDetailsLiveData.revenue==null ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/budgetTextView"
+                    style="@style/ScreenDetailsText" />
 
                 <TextView
                     android:id="@+id/postersAndBackdropsTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
                     android:text="@string/posters_title"
-                    android:textStyle="bold"
                     android:visibility="@{movieDetailViewModel.carouselImagesLiveData.carouselItems.empty ? View.GONE : View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/contentText" />
+                    app:layout_constraintTop_toBottomOf="@+id/revenueTextView"
+                    style="@style/ScreenDetailsText.Title"/>
 
                 <org.imaginativeworld.whynotimagecarousel.ImageCarousel
                     android:id="@+id/carousel"
@@ -121,15 +140,11 @@
 
                 <TextView
                     android:id="@+id/availableAtTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
                     android:text="@string/available_at"
-                    android:textStyle="bold"
                     android:visibility="@{movieDetailViewModel.watchProvidersLiveData.empty ? View.GONE : View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/carousel" />
+                    app:layout_constraintTop_toBottomOf="@+id/carousel"
+                    style="@style/ScreenDetailsText.Title"/>
 
                 <com.google.android.flexbox.FlexboxLayout
                     android:id="@+id/watchProvidersFlexboxLayout"
@@ -147,13 +162,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/availableAtTextView">
 
                 </com.google.android.flexbox.FlexboxLayout>
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent="0.8" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

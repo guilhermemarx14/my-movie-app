@@ -1,6 +1,7 @@
 package com.guilhermemarx14.mymovieapp.view.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -28,11 +29,12 @@ class MainScreenFragment : Fragment(), NavigationView.OnNavigationItemSelectedLi
         setupDataBinding(inflater,container)
         setupRedirectionButtons()
 
-
         return binding.root
     }
 
     private fun setupRedirectionButtons(){
+binding.nowPlayingButton.visibility = View.VISIBLE
+
         hostActivity.navDrawer.setNavigationItemSelectedListener(this)
 
         mainScreenViewModel.navigateToListLiveData.observe(viewLifecycleOwner) {

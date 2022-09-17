@@ -10,7 +10,7 @@ data class MovieWatchProvidersResponse(
 
 @JsonClass(generateAdapter = true)
 data class ResultRegion(
-    val BR: MovieWatchProvider?
+    val US: MovieWatchProvider?
 )
 
 @JsonClass(generateAdapter = true)

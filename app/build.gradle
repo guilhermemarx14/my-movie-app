@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.guilhermemarx14.mymovieapp"
-        minSdk 23
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -35,6 +35,7 @@ android {
     dataBinding{
         enabled true
     }
+    namespace 'com.guilhermemarx14.mymovieapp'
 }
 
 dependencies {
