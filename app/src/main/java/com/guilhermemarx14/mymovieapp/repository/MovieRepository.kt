@@ -1,6 +1,7 @@
 package com.guilhermemarx14.mymovieapp.repository
 
 
+import android.util.Log
 import com.guilhermemarx14.mymovieapp.model.*
 import com.guilhermemarx14.mymovieapp.repository.datasource.LocalDatabaseDataSource
 import com.guilhermemarx14.mymovieapp.repository.datasource.TmdbDataSource
@@ -16,13 +17,25 @@ class MovieRepository @Inject constructor(
     suspend fun getMovieListData(type: MovieListType): Result<List<MovieListItem>?> =
         try {
             val list = when (type) {
-                MovieListType.POPULAR -> tmdbDataSource.getPopularListData()
-                MovieListType.NOW_PLAYING -> tmdbDataSource.getNowPlayingListData()
-                MovieListType.TOP_RATED -> tmdbDataSource.getTopRatedListData()
-                MovieListType.UPCOMING -> tmdbDataSource.getUpcomingListData()
+                MovieListType.POPULAR -> {
+                    Log.d("movieApp","getPopularListData")
+                    tmdbDataSource.getPopularListData()
+                }
+                MovieListType.NOW_PLAYING -> {
+                    Log.d("movieApp","getNowPlayingListData")
+                    tmdbDataSource.getNowPlayingListData()
+                }
+                MovieListType.TOP_RATED -> {
+                    Log.d("movieApp","getTopRatedListData")
+                    tmdbDataSource.getTopRatedListData()
+                }
+                MovieListType.UPCOMING -> {
+                    Log.d("movieApp","getUpcomingListData")
+                    tmdbDataSource.getUpcomingListData()
+                }
             }
-            if (list.isSuccess)
-                persistData(list.getOrNull())
+            //if (list.isSuccess)
+                //persistData(list.getOrNull())
             list
         } catch (e: Exception) {
             Result.failure(e)

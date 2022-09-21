@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_mainScreenFragment_to_movieListFragment"
             app:destination="@id/movieListFragment" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
     </fragment>
 
     <fragment
@@ -20,9 +23,6 @@
         android:name="com.guilhermemarx14.mymovieapp.view.fragment.MovieListFragment"
         android:label="fragment_movie_list"
         tools:layout="@layout/fragment_movie_list">
-        <argument
-            android:name="listType"
-            app:argType="com.guilhermemarx14.mymovieapp.model.MovieListType" />
         <action
             android:id="@+id/action_movieListFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />

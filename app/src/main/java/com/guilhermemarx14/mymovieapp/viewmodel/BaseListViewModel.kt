@@ -9,37 +9,34 @@ import com.guilhermemarx14.mymovieapp.model.DataState
 import com.guilhermemarx14.mymovieapp.model.MovieListItem
 import com.guilhermemarx14.mymovieapp.model.MovieListType
 import com.guilhermemarx14.mymovieapp.repository.MovieRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class MovieListViewModel @Inject constructor(
-    var repository: MovieRepository
-) : ViewModel(){
+abstract class BaseListViewModel(val repo: MovieRepository) : ViewModel() {
+
+    open lateinit var type: MovieListType
 
     val movieListLiveData: LiveData<List<MovieListItem>?>
         get() = _movieListLiveData
-    private val _movieListLiveData =
+    protected val _movieListLiveData =
         MutableLiveData<List<MovieListItem>?>()
 
     val navigateToDetailsLiveData: LiveData<Event<Unit>>
         get() = _navigateToDetailsLiveData
-    private val _navigateToDetailsLiveData = MutableLiveData<Event<Unit>>()
+    protected val _navigateToDetailsLiveData = MutableLiveData<Event<Unit>>()
 
     val listStateLiveData: LiveData<DataState>
         get() = _listStateLiveData
-    private val _listStateLiveData = MutableLiveData<DataState>()
+    protected val _listStateLiveData = MutableLiveData<DataState>()
 
 
     fun navigateToDetails(){
         _navigateToDetailsLiveData.postValue(Event(Unit))
     }
 
-    fun getMovieList(type: MovieListType) {
+    fun getMovieList(){
         _listStateLiveData.postValue(DataState.LOADING)
         viewModelScope.launch {
-            val movieListResult = repository.getMovieListData(type)
+            val movieListResult = repo.getMovieListData(type)
 
             movieListResult.fold(
                 onSuccess = {
@@ -54,4 +51,6 @@ class MovieListViewModel @Inject constructor(
 
         }
     }
+
+
 }

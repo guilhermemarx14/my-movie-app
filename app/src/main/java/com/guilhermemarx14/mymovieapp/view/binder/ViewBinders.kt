@@ -7,7 +7,6 @@ import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.google.android.flexbox.FlexboxLayout
-import com.guilhermemarx14.mymovieapp.R
 import com.guilhermemarx14.mymovieapp.model.WatchProvider
 import com.guilhermemarx14.mymovieapp.util.ViewUtil
 import org.imaginativeworld.whynotimagecarousel.ImageCarousel

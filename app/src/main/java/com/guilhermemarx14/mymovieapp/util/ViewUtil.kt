@@ -1,14 +1,8 @@
 package com.guilhermemarx14.mymovieapp.util
 
-import android.content.Context
-import android.graphics.Color
-import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
-import androidx.core.view.children
-import com.guilhermemarx14.mymovieapp.R
 
 class ViewUtil {
 

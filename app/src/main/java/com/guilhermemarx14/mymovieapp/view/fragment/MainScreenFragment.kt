@@ -1,7 +1,6 @@
 package com.guilhermemarx14.mymovieapp.view.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -9,12 +8,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.navigation.NavigationView
 import com.guilhermemarx14.mymovieapp.MainActivity
 import com.guilhermemarx14.mymovieapp.R
 import com.guilhermemarx14.mymovieapp.databinding.FragmentMainScreenBinding
 import com.guilhermemarx14.mymovieapp.model.MovieListType
+import com.guilhermemarx14.mymovieapp.view.adapter.ViewPagerAdapter
 import com.guilhermemarx14.mymovieapp.viewmodel.MainScreenViewModel
 
 class MainScreenFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener {
@@ -28,19 +27,30 @@ class MainScreenFragment : Fragment(), NavigationView.OnNavigationItemSelectedLi
     ): View {
         setupDataBinding(inflater,container)
         setupRedirectionButtons()
-
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val adapter = ViewPagerAdapter(childFragmentManager)
+        adapter.addFragment( MovieListFragment(MovieListType.TOP_RATED), resources.getString(R.string.top_rated_title))
+        adapter.addFragment( MovieListFragment(MovieListType.POPULAR), resources.getString(R.string.popular_title))
+        adapter.addFragment( MovieListFragment(MovieListType.NOW_PLAYING), resources.getString(R.string.now_playing_title))
+        adapter.addFragment( MovieListFragment(MovieListType.UPCOMING), resources.getString(R.string.upcoming_title))
+
+        val viewPager = binding.viewPager
+        viewPager.adapter = adapter
+
+        binding.tabLayout.setupWithViewPager(viewPager)
+    }
+
     private fun setupRedirectionButtons(){
-binding.nowPlayingButton.visibility = View.VISIBLE
 
         hostActivity.navDrawer.setNavigationItemSelectedListener(this)
 
         mainScreenViewModel.navigateToListLiveData.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { type ->
-                val action = MainScreenFragmentDirections.actionMainScreenFragmentToMovieListFragment(type)
-                findNavController().navigate(action)
+               // val action = MainScreenFragmentDirections.actionMainScreenFragmentToMovieListFragment(type)
+                //findNavController().navigate(action)
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.guilhermemarx14.mymovieapp.util
 
-import android.util.Log
 import com.guilhermemarx14.mymovieapp.model.Genre
 import java.math.BigDecimal
 import java.math.RoundingMode

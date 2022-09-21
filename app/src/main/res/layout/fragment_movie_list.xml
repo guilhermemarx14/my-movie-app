@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.guilhermemarx14.mymovieapp.viewmodel.MovieListViewModel" />
+            type="com.guilhermemarx14.mymovieapp.viewmodel.BaseListViewModel" />
     </data>
 
     <LinearLayout

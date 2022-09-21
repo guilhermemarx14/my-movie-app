@@ -1,6 +1,5 @@
 package com.guilhermemarx14.mymovieapp
 
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
