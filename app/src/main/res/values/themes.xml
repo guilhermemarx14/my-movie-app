@@ -21,6 +21,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="fontFamily">@font/nunito_black</item>
         <item name="drawerArrowStyle">@style/Theme.MyMovieApp.DrawerIcon</item>
     </style>
 
@@ -49,6 +50,7 @@
 
     <style name="ScreenDetailsText">
         <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="fontFamily">@font/nunito_extralightitalic</item>
         <item name="android:textSize">14sp</item>
         <item name="android:layout_marginStart">20dp</item>
         <item name="android:layout_marginVertical">15dp</item>
@@ -81,5 +83,9 @@
         <item name="tabIndicatorHeight">1dp</item>
         <item name="tabIndicatorFullWidth">false</item>
         <item name="tabTextAppearance">@style/ScreenDetailsText</item>
+        <item name="android:textSize">12sp</item>
+        <item name="tabMode">scrollable</item>
+        <item name="tabGravity">start</item>
+
     </style>
 </resources>

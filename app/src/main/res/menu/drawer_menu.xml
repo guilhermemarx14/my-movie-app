@@ -1,32 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="Lists">
-        <menu>
-            <group android:checkableBehavior="single">
-
-                <item
-                    android:id="@+id/nowPlayingMenuItem"
-                    android:icon="@drawable/ic_list"
-                    android:title="@string/now_playing_title" />
-                <item
-                    android:id="@+id/popularMenuItem"
-                    android:icon="@drawable/ic_list"
-                    android:title="@string/popular_title" />
-                <item
-                    android:id="@+id/topRatedMenuItem"
-                    android:icon="@drawable/ic_list"
-                    android:title="@string/top_rated_title" />
-                <item
-                    android:id="@+id/upcomingMenuItem"
-                    android:icon="@drawable/ic_list"
-                    android:title="@string/upcoming_title" />
-            </group>
-        </menu>
-    </item>
     <item android:title="Others">
         <menu>
             <group android:checkableBehavior="single">
-
                 <item
                     android:id="@+id/others"
                     android:icon="@drawable/ic_list"

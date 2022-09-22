@@ -39,6 +39,7 @@ class MainScreenFragment : Fragment(), NavigationView.OnNavigationItemSelectedLi
 
         val viewPager = binding.viewPager
         viewPager.adapter = adapter
+        viewPager.offscreenPageLimit = 4
 
         binding.tabLayout.setupWithViewPager(viewPager)
     }
@@ -48,7 +49,7 @@ class MainScreenFragment : Fragment(), NavigationView.OnNavigationItemSelectedLi
         hostActivity.navDrawer.setNavigationItemSelectedListener(this)
 
         mainScreenViewModel.navigateToListLiveData.observe(viewLifecycleOwner) {
-            it.getContentIfNotHandled()?.let { type ->
+            it.getContentIfNotHandled()?.let { _ ->
                // val action = MainScreenFragmentDirections.actionMainScreenFragmentToMovieListFragment(type)
                 //findNavController().navigate(action)
             }
@@ -66,13 +67,13 @@ class MainScreenFragment : Fragment(), NavigationView.OnNavigationItemSelectedLi
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.nowPlayingMenuItem -> mainScreenViewModel.navigateToList(MovieListType.NOW_PLAYING)
-            R.id.popularMenuItem -> mainScreenViewModel.navigateToList(MovieListType.POPULAR)
-            R.id.topRatedMenuItem -> mainScreenViewModel.navigateToList(MovieListType.TOP_RATED)
-            R.id.upcomingMenuItem -> mainScreenViewModel.navigateToList(MovieListType.UPCOMING)
-        }
-        hostActivity.drawer.close()
+//        when(item.itemId){
+//            R.id.nowPlayingMenuItem -> mainScreenViewModel.navigateToList(MovieListType.NOW_PLAYING)
+//            R.id.popularMenuItem -> mainScreenViewModel.navigateToList(MovieListType.POPULAR)
+//            R.id.topRatedMenuItem -> mainScreenViewModel.navigateToList(MovieListType.TOP_RATED)
+//            R.id.upcomingMenuItem -> mainScreenViewModel.navigateToList(MovieListType.UPCOMING)
+//        }
+//        hostActivity.drawer.close()
         return true
     }
 

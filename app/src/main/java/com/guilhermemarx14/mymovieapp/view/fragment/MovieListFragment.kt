@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.guilhermemarx14.mymovieapp.MainActivity
 import com.guilhermemarx14.mymovieapp.R
 import com.guilhermemarx14.mymovieapp.databinding.FragmentMovieListBinding
+import com.guilhermemarx14.mymovieapp.lifecycle_observer.FragmentObserver
 import com.guilhermemarx14.mymovieapp.model.MovieListType
 import com.guilhermemarx14.mymovieapp.view.adapter.MovieRecyclerViewAdapter
 import com.guilhermemarx14.mymovieapp.view.adapter.MovieSelectedListener
@@ -32,7 +33,9 @@ class MovieListFragment(val type: MovieListType) : Fragment(), MovieSelectedList
     private lateinit var hostActivity: MainActivity
     private val topRatedMovieListViewModel by hiltNavGraphViewModels<TopRatedMovieListViewModel>(R.id.nav_graph)
     private val popularMovieListViewModel by hiltNavGraphViewModels<PopularMovieListViewModel>(R.id.nav_graph)
-    private val nowPlayingMovieListViewModel by hiltNavGraphViewModels<NowPlayingMovieListViewModel>(R.id.nav_graph)
+    private val nowPlayingMovieListViewModel by hiltNavGraphViewModels<NowPlayingMovieListViewModel>(
+        R.id.nav_graph
+    )
     private val upcomingMovieListViewModel by hiltNavGraphViewModels<UpcomingMovieListViewModel>(R.id.nav_graph)
     private val movieDetailsViewModel by hiltNavGraphViewModels<MovieDetailsViewModel>(R.id.nav_graph)
     private lateinit var viewModel: BaseListViewModel
@@ -103,6 +106,9 @@ class MovieListFragment(val type: MovieListType) : Fragment(), MovieSelectedList
     }
 
     private fun setupObservers() {
+
+        lifecycle.addObserver(FragmentObserver(type))
+
         viewModel.movieListLiveData.observe(viewLifecycleOwner) {
             it?.let { adapter.updateValues(it) }
         }

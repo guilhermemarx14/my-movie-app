@@ -80,7 +80,7 @@ class Movie() {
 
     fun getBudgetText():String?{
         return budget?.let {
-            "Budget: \$ $it,00"
+            "Budget: ${Util.monetaryNumberFormat(it)}"
         }
     }
 

@@ -3,11 +3,23 @@ package com.guilhermemarx14.mymovieapp.util
 import com.guilhermemarx14.mymovieapp.model.Genre
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 class Util {
     companion object {
+        fun monetaryNumberFormat(value: Int): String{
+            val symbols = DecimalFormatSymbols(Locale.US)
+            symbols.groupingSeparator = '.'
+
+            val df = DecimalFormat("$ #,###",symbols)
+
+            return df.format(value)
+        }
 
         var movieGenres: List<Genre>? = null
         var region = "US"
